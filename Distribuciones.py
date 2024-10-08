@@ -1,6 +1,6 @@
 import random
 import math
-from Classes import *
+from Models import *
 
 class SimulatedAnnealing:
     def __init__(self, aulas, comisiones, dias, franjas_horarias):

@@ -6,6 +6,7 @@
 #include <algorithm> // Para random_shuffle
 #include <map>
 #include <string>
+#include <set>
 
 using namespace std;
 
@@ -27,6 +28,17 @@ struct Recurso {
     Recurso() : aula(Aula(0, 0)), dia(0), hora(0) {}
 
     Recurso(Aula aula, int dia, int hora) : aula(aula), dia(dia), hora(hora) {}
+
+     // Sobrecargar el operador < para usar en std::set
+    bool operator<(const Recurso& other) const {
+        if (aula.id != other.aula.id) {
+            return aula.id < other.aula.id;
+        }
+        if (dia != other.dia) {
+            return dia < other.dia;
+        }
+        return hora < other.hora;
+    }
 };
 
 struct Profesor {
@@ -85,17 +97,19 @@ vector<Recurso> generarRecursos(const vector<Aula>& aulas, int dias, int horas) 
     return recursos;
 };
 
-// Función para generar una distribución inicial aleatoria
-map<Dictado, Recurso> generarDistribucionInicial(const vector<Dictado>& dictados, vector<Recurso>& recursos) {
+
+map<Dictado, Recurso> generarDistribucionInicial(const vector<Dictado>& dictados, vector<Recurso>& recursos, set<Recurso>& recursosDisponibles) {
     map<Dictado, Recurso> distribucion;
     random_shuffle(recursos.begin(), recursos.end());
 
     for (size_t i = 0; i < dictados.size(); ++i) {
         distribucion.emplace(dictados[i], recursos[i]);
+        recursosDisponibles.erase(recursos[i]); 
     }
 
     return distribucion;
 };  
+
 
 // Función para evaluar la calidad de la solución
 int evaluar(const std::map<Dictado, Recurso>& distribucion) {
@@ -131,41 +145,58 @@ int evaluar(const std::map<Dictado, Recurso>& distribucion) {
     return penalizacion;
 }
 
-// Generar un vecino de la distribución actual
-std::map<Dictado, Recurso> generarVecino(const std::map<Dictado, Recurso>& distribucion, const std::vector<Recurso>& recursos) {
-    std::map<Dictado, Recurso> vecino = distribucion;
-    
+
+
+// Generar un vecino de la distribución actual con recursos disponibles como parámetro
+map<Dictado, Recurso> generarVecino(map<Dictado, Recurso>& distribucion, set<Recurso>& recursosDisponibles) {
+    map<Dictado, Recurso> vecino = distribucion;
+
     // Seleccionar aleatoriamente un dictado para cambiar su asignación de recurso
     auto it = vecino.begin();
     std::advance(it, rand() % vecino.size());
     const Dictado& dictado = it->first;
 
-    // Seleccionar aleatoriamente un recurso para reasignarlo
-    Recurso nuevoRecurso = recursos[rand() % recursos.size()];
-    vecino[dictado] = nuevoRecurso;
+    // Recurso actualmente asignado que se liberará
+    Recurso recursoActual = it->second;
+
+    // Seleccionar aleatoriamente un recurso disponible para reasignarlo
+    auto itRecursoDisponible = recursosDisponibles.begin();
+    std::advance(itRecursoDisponible, rand() % recursosDisponibles.size());
+
+    // Actualizar los recursos disponibles:
+    // - Eliminar el nuevo recurso seleccionado de los disponibles
+    Recurso nuevoRecurso = *itRecursoDisponible;
+    recursosDisponibles.erase(itRecursoDisponible);
     
+    // - Liberar el recurso actualmente asignado y añadirlo a los disponibles
+    recursosDisponibles.insert(recursoActual);
+
+    // Asignar el nuevo recurso al dictado
+    vecino[dictado] = nuevoRecurso;
+
     return vecino;
 }
-
-
-
 
 // Algoritmo de Recocido Simulado
 map<Dictado, Recurso> recocidoSimulado(const vector<Comision>& comisiones, const vector<Aula>& aulas, int iteraciones, double coefReduccionTemp, int dias, int horas) {
     vector<Dictado> dictados = generarDictados(comisiones);
     vector<Recurso> recursos = generarRecursos(aulas, dias, horas);
 
+    set<Recurso> recursosDisponibles(recursos.begin(), recursos.end());
+
     // Generar la distribución inicial
-    map<Dictado, Recurso> solucion = generarDistribucionInicial(dictados, recursos);
+    map<Dictado, Recurso> solucion = generarDistribucionInicial(dictados, recursos, recursosDisponibles);
     int costoSolucion = evaluar(solucion);
-    //cout <<"inicial: " <<costoSolucion;
+ 
     map<Dictado, Recurso> actual = solucion;
     int costoActual = costoSolucion;
     double temperatura = 1.0;
 
     // Iteraciones de recocido simulado
     for (int i = 0; i < iteraciones; i++) {
-        map<Dictado, Recurso> vecino = generarVecino(actual, recursos);
+
+        set<Recurso> recursosDisponiblesCopia = recursosDisponibles; //copia en profundida
+        map<Dictado, Recurso> vecino = generarVecino(actual, recursosDisponiblesCopia); //actualiza los recursos disponibles en la copia
         int costoVecino = evaluar(vecino);
 
         int diferencia = costoVecino - costoActual;
@@ -173,15 +204,12 @@ map<Dictado, Recurso> recocidoSimulado(const vector<Comision>& comisiones, const
         if (diferencia < 0 || exp(-diferencia / temperatura) > static_cast<double>(rand()) / RAND_MAX) {
             actual = vecino;
             costoActual = costoVecino;
+            recursosDisponibles = recursosDisponiblesCopia;
 
             if (costoVecino < costoSolucion) {
                 solucion = vecino;
                 costoSolucion = costoVecino;
-                //cout <<"mejoro: " <<costoSolucion<< " \n";
-            } else {
-                //if(costoVecino > costoSolucion)
-                    //cout <<"empeoro: " <<costoVecino<< "\n";
-            }
+            } 
         }
         temperatura *= coefReduccionTemp;
     }
@@ -221,12 +249,22 @@ int main() {
     // Ejecutar el algoritmo de Recocido Simulado
     map<Dictado, Recurso> solucionFinal = recocidoSimulado(comisiones, aulas, iteraciones, coefReduccionTemp, dias, horas);
 
+
+    int i=0; 
     // Imprimir la solución final
     for (const auto& pair : solucionFinal) {
-        cout << "Comision de " << pair.first.comision->materia.nombre << " dictado " << pair.first.id 
+
+        // cout << "Comision " << pair.first.comision->materia.nombre << " dictado " << pair.first.id 
+        //      << " (alumnos: " << pair.first.comision->alumnos
+        //      << ") asignada a aula " << pair.second.aula.id << " (capacidad: " << pair.second.aula.capacidad
+        //      << "), dia " << pair.second.dia << ", hora " << pair.second.hora << endl;
+
+        cout << "dictado " << i 
              << " (alumnos: " << pair.first.comision->alumnos
              << ") asignada a aula " << pair.second.aula.id << " (capacidad: " << pair.second.aula.capacidad
              << "), dia " << pair.second.dia << ", hora " << pair.second.hora << endl;
+
+        i++;
     }
     
     int resultadoEvaluacion = evaluar(solucionFinal);

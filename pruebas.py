@@ -1,6 +1,7 @@
 import random
 import math
 
+
 # Función que evalúa cuántas restricciones se incumplen en una solución
 def evaluar_restricciones(solucion, aulas, capacidad_aulas):
     # Aquí evaluarás cuántas restricciones incumple la solución:

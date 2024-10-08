@@ -22,3 +22,11 @@ class Comision:
 
     def __str__(self):
         return f'Comisión de {self.materia} - Profesor: {self.profesor}, Cantidad de alumnos: {self.cant_alumnos}'
+
+class Dictado:
+    def __init__(self, comision, numero):
+        self.comision = comision
+        self.numero = numero
+
+    def __str__(self):
+        return f'Comisión: {self.comision} - {self.numero}'                                                                                             }'
