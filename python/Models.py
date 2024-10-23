@@ -1,9 +1,10 @@
 class Aula:
-    def __init__(self, capacidad):
+    def __init__(self, nombre,  capacidad):
+        self.nombre = nombre
         self.capacidad = capacidad
     
     def __str__(self):
-        return f'Aula con capacidad para {self.capacidad} alumnos'
+        return f'Aula {self.nombre} con capacidad para {self.capacidad} alumnos'
 
 class Recurso:
     def __init__(self, aula, dia, horario):
@@ -14,8 +15,23 @@ class Recurso:
     def __str__(self):
         return f'Aula {self.aula} - {self.dia}, hora: {self.horario}'
 
+class Profesor:
+    def __init__(self,nombre):
+        self.nombre= nombre
+
+    def __str__(self):
+        return self.nombre
+    
+class Materia:
+    def __init__(self,nombre):
+        self.nombre= nombre
+
+    def __str__(self):
+        return self.nombre
+
 class Comision:
-    def __init__(self, profesor, materia, cant_alumnos):
+    def __init__(self, nombre, profesor, materia, cant_alumnos):
+        self.nombre =  nombre
         self.profesor = profesor
         self.materia = materia    
         self.cant_alumnos = cant_alumnos  
@@ -29,4 +45,4 @@ class Dictado:
         self.numero = numero
 
     def __str__(self):
-        return f'Comisión: {self.comision} - {self.numero}'                                                                                             }'
+        return f'Comisión: {self.comision} - {self.numero}'                                                                                             

@@ -1,0 +1,2 @@
+*.exe
+python/__pycache__/*

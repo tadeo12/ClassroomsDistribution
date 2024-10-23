@@ -18,17 +18,7 @@ class SimulatedAnnealing:
 
         self.distribucion_actual = self.generar_distribucion_inicial()
     
-    # def _generar_bloque_4_horas(self):
-    #     """Generar un bloque de 4 horas (2 franjas horarias consecutivas)"""
-    #     dia = random.choice(self.dias)
-    #     aula = random.choice(self.aulas)
-    #     # Seleccionar dos franjas consecutivas para formar un bloque de 4 horas
-    #     idx_franja = random.randint(0, len(self.franjas_horarias) - 2)  # Garantizamos franjas consecutivas
-    #     bloque = [
-    #         Recurso(aula, dia, self.franjas_horarias[idx_franja]),      # Primeras 2 horas
-    #         Recurso(aula, dia, self.franjas_horarias[idx_franja + 1])   # Siguientes 2 horas
-    #     ]
-    #     return bloque
+  
         
     def generar_bloque_4_horas(self):
         """Generar un bloque de 4 horas (2 franjas horarias consecutivas) que no esté ocupado"""
