@@ -1,8 +1,6 @@
     
 def evaluar(distribucion):
-
     penalizacion = 0
-
     # Penalización por capacidad del aula
     for dictado, recurso in distribucion.items():
         if dictado.comision.cant_alumnos > recurso.aula.capacidad:

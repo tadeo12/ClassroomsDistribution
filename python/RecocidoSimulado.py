@@ -23,7 +23,7 @@ def generar_distribucion_inicial(dictados, recursos, recursos_disponibles):
     distribucion = {}
     random.shuffle(recursos)
     
-    # Asignar dictados a recursos
+    # Se asume que len(recursos) >= len(dictados)
     for i in range(len(dictados)):
         distribucion[dictados[i]] = recursos[i]
         recursos_disponibles.remove(recursos[i]) 

@@ -4,31 +4,64 @@ from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph
 from reportlab.lib.units import inch
 from reportlab.lib.styles import getSampleStyleSheet
 
-# Función para generar el PDF
-def crear_pdf():
-    # Nombre del archivo de salida
-    archivo_pdf = "horarios_clases.pdf"
-    
-    # Configuración básica del documento
-    doc = SimpleDocTemplate(archivo_pdf, pagesize=A4, rightMargin=20, leftMargin=20, topMargin=20, bottomMargin=20)
-    elementos = []
-    
+from Evaluar import evaluar
+
+
+styles = getSampleStyleSheet()
+
+# Función para llenar la matriz de datos
+def cargarDatos(distribucion):
+
     # Estilos para los párrafos
-    styles = getSampleStyleSheet()
+
     estilo_celda = styles["BodyText"]
     estilo_celda.wordWrap = 'CJK'  # Para que el texto ajuste automáticamente
+
+    datos = [ ["Materia", "Profesor", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes"]]
+    # Diccionario temporal para almacenar las filas por materia y profesor
+    tabla_materias = {}
     
-    # Datos de ejemplo con texto largo para probar el ajuste
-    datos = [
-        ["Materia", "Profesor", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes"],
-        [Paragraph("Resolución de Problemas y Algoritmos", estilo_celda), Paragraph("Dra. Jesica Carballido", estilo_celda), "8-12", "", "8-12", "", ""],
-        [Paragraph("Teoría de la Computabilidad", estilo_celda), Paragraph("Dr. Carlos Chesñevar", estilo_celda), "8-12", "", "8-12", "", ""],
-        [Paragraph("Estructuras de Datos", estilo_celda), Paragraph("Dr. Sergio Gómez", estilo_celda), "", "", "14-18", "", ""],
-    ]
+    # Recorrer cada dictado en la distribución
+    for dictado, recurso in distribucion.items():
+        materia = dictado.comision.materia.nombre
+        profesor = dictado.comision.profesor.nombre
+        dia = recurso.dia
+        horario = recurso.horario
+        aula = recurso.aula.nombre
+        
+        # Crear una clave única para la materia y profesor
+        clave = (materia, profesor)
+        
+        # Si no existe esa clave en tabla_materias, inicializar una fila
+        if clave not in tabla_materias:
+            tabla_materias[clave] = ["", "", "", "", ""]
+        
+
+        tabla_materias[clave][dia] = f"{horario}\nAula {aula}"
     
+    # Convertir la tabla de materias en el formato de la tabla final
+    for (materia, profesor), horarios in tabla_materias.items():
+        datos.append([
+            Paragraph(materia, estilo_celda), Paragraph(profesor, estilo_celda),
+            horarios[0], horarios[1], horarios[2], horarios[3], horarios[4]
+        ])
+
+    return datos
+   
+
+# Función para generar el PDF
+def crear_pdf(solucion_final, nombre_archivo = "horarios_clase.pdf"):
+    
+    # Configuración básica del documento
+    doc = SimpleDocTemplate(nombre_archivo, pagesize=A4, rightMargin=20, leftMargin=20, topMargin=20, bottomMargin=20)
+    elementos = []
+    
+   
     # Ancho de cada columna
     page_width = A4[0] - 40  # Ancho de página menos márgenes
     col_widths = [page_width * 0.25, page_width * 0.25] + [page_width * 0.1] * 5
+
+    datos = cargarDatos(solucion_final)
 
     # Crear la tabla con los nuevos anchos de columna
     tabla = Table(datos, colWidths=col_widths)
@@ -50,10 +83,10 @@ def crear_pdf():
 
     elementos.append(Paragraph("Distribución de aulas", styles["h1"]))
     elementos.append(tabla)
+    elementos.append(Paragraph(f"evaluacion de penalización: {evaluar(solucion_final)}"))
 
     # Generar el archivo PDF
     doc.build(elementos)
-    print(f"PDF generado con éxito en: {archivo_pdf}")
+    print(f"PDF generado con éxito en: {nombre_archivo}")
 
-# Llamada a la función para generar el PDF
-crear_pdf()
+
