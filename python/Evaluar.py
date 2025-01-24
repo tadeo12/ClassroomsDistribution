@@ -1,4 +1,6 @@
-    
+
+
+
 def evaluar(distribucion):
     penalizacion = 0
     # Penalización por capacidad del aula
