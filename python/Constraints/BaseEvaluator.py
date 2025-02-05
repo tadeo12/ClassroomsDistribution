@@ -3,5 +3,5 @@ from abc import ABC, abstractmethod
 
 class BaseEvaluator(ABC):
     @abstractmethod
-    def evaluate(self, allocation):
+    def evaluate(self, allocation: dict) -> int:
         pass    

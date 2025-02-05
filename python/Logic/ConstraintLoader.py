@@ -28,11 +28,23 @@ def load_evaluation_functions():
     for file in os.listdir(folder):
         if file.endswith("Evaluator.py") and file != "BaseEvaluator.py":
             module, module_name = import_file(folder, file)
-            if module and hasattr(module, "evaluate") and callable(getattr(module, "evaluate")):
-                functions[module_name] = getattr(module, "evaluate")
-                logging.info(f"Se cargó correctamente la función 'evaluate' del archivo '{file}'.")
+            if module:
+                # Imprimir los atributos del módulo para depurar
+                logging.debug(f"Atributos del módulo '{module_name}': {dir(module)}")
+
+                class_name = module_name  # Convención: el nombre del archivo coincide con el de la clase
+                cls = getattr(module, class_name, None)
+
+                if cls:
+                    if hasattr(cls, "evaluate") and callable(getattr(cls, "evaluate")):
+                        functions[module_name] = cls
+                        logging.info(f"Se cargó correctamente la clase '{class_name}' del archivo '{file}'.")
+                    else:
+                        logging.warning(f"La clase '{class_name}' del archivo '{file}' no tiene un método 'evaluate' callable.")
+                else:
+                    logging.warning(f"El archivo '{file}' no contiene una clase '{class_name}'.")
             else:
-                logging.warning(f"El archivo '{file}' no tiene una función 'evaluate' callable.")
+                logging.warning(f"No se pudo importar el módulo '{file}'.")
 
     return functions
 

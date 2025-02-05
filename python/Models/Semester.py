@@ -1,8 +1,9 @@
 from typing import List
-from Subject import Subject
+from .Subject import Subject
 #from Career import Career
 
 class Semester:
+
     def __init__(self, semester_name: str,subjects: List[Subject] = None):
         #self.carrer = career
         self.semester_name = semester_name

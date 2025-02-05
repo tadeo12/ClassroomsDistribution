@@ -1,4 +1,5 @@
-from Place import Place
+from .Place import Place
+
 
 class Classroom:
     def __init__(self, name: str,  capacity: int, place: Place):
