@@ -1,7 +1,7 @@
 import streamlit as st
 
 from .ResultsPage import resultsPage
-from .AdvanceConfigurationPage import advanceConfigurationPage
+from .AdvancedConfigurationPage import advancedConfigurationPage
 from .MainPage import mainPage
 
 def main(): 
@@ -10,19 +10,15 @@ def main():
     
     menu_options = ["Inicio", "Opciones Avanzadas"]
 
-    menu = st.sidebar.radio("Menú", menu_options)
-    
-    # Agregar "Resultados" si los resultados están disponibles
+ # Agregar "Resultados" si los resultados están disponibles
     if "finalAllocation" in st.session_state and "evaluation" in st.session_state:
         menu_options.append("Resultados")
+
+    menu = st.sidebar.radio("Menú", menu_options)  
 
     if menu == "Inicio":
         mainPage()
     elif menu == "Opciones Avanzadas":
-        advanceConfigurationPage()
+        advancedConfigurationPage()
     elif menu == "Resultados":
         resultsPage()  # Llamar a la nueva función de resultados
-
-
-if __name__ == "__main__":
-    main()

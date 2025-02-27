@@ -4,7 +4,9 @@ def resultsPage():
     st.title("Resultados de la Ejecución")
     if "finalAllocation" in st.session_state and "evaluation" in st.session_state:
         st.subheader("Final Allocation")
-        st.json(st.session_state.finalAllocation)
+
+        final_allocation_serializable = {str(key): str(value) for key, value in st.session_state.finalAllocation.items()}
+        st.json(final_allocation_serializable)
         
         st.subheader("Evaluation")
         st.json(st.session_state.evaluation)

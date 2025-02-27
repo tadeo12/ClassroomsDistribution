@@ -31,7 +31,7 @@ def save_config(config):
                 f.write(f"{key} = {value}\n")
 
 # Página de configuración avanzada
-def advanceConfigurationPage():
+def advancedConfigurationPage():
     st.subheader("Configuración del algoritmo")
     st.write("modificar solo si sabes lo que estas haciendo")
     # Cargar configuración actual

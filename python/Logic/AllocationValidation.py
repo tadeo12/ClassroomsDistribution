@@ -21,9 +21,13 @@ def validate(Allocation: dict) -> None:
         
         commission_count[value] += 1
 
+    enoughtHoursValidation(commission_count)
+
+def enoughtHoursValidation(commission_count):
     for commission, count in commission_count.items():
         if count * HOURS_PER_RESOURCE != commission.hour:
             raise InvalidAllocationError(
                 f"La comisión {commission} está asignada a {count} recursos, "
                 f"pero requiere exactamente {commission.hour / HOURS_PER_RESOURCE}."
             )
+

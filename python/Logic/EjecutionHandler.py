@@ -1,5 +1,4 @@
 import streamlit as st
-
 from .AllocationValidation import validate
 from .RandomInitialAllocationGenerator import generateRandomInitialAllocation
 from .SimulatedAnnealing import simulatedAnnealing
@@ -17,6 +16,8 @@ def ejecutionButtonHandler(initialAllocation: dict = None):
 
     st.session_state["finalAllocation"] = simulatedAnnealing(initialAllocation)
     st.session_state["evaluation"] = evaluate(st.session_state["finalAllocation"])
+
+    st.rerun()
 
 
 

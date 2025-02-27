@@ -21,5 +21,5 @@ class Commission:
     #def get_careers(self):
         #return self.careers
     
-   # def __str__(self):
-   #    return f'Comisión de {self.materia} - Profesor: {self.profesor}, Cantidad de alumnos: {self.cant_alumnos}'
+    def __str__(self):
+        return f'Comisión de {self.subject} - Profesor: {self.teacher}, Cantidad de alumnos: {self.students}, Horas por semana: {self.hours}'
