@@ -6,7 +6,7 @@ from .MainPage import mainPage
 
 def main(): 
     st.set_page_config(page_title="Generacion de distribucion de aulas", page_icon="../Resources/icon.png",layout="wide")  # Mejor uso del espacio
-    st.sidebar.image("../Resources/logo uns.png",clamp = True ,caption="logo uns")
+    st.sidebar.image("../Resources/logo uns.png",clamp = True, width = 200)
     
     menu_options = ["Inicio", "Opciones Avanzadas"]
 

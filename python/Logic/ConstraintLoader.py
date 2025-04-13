@@ -18,7 +18,7 @@ def import_file(folder, file):
 
 def load_evaluation_functions():
     """Carga funciones 'evaluate' de módulos en la carpeta 'Constraints'."""
-    folder = "Constraints"
+    folder = os.path.join("Constraints", "Activated")
     functions = {}
 
     if not os.path.exists(folder):
@@ -29,7 +29,6 @@ def load_evaluation_functions():
         if file.endswith("Evaluator.py") and file != "BaseEvaluator.py":
             module, module_name = import_file(folder, file)
             if module:
-                # Imprimir los atributos del módulo para depurar
                 logging.debug(f"Atributos del módulo '{module_name}': {dir(module)}")
 
                 class_name = module_name  # Convención: el nombre del archivo coincide con el de la clase
