@@ -1,0 +1,323 @@
+{
+    "places": [{"name": "Palihue"}, {"name": "Alem"}, {"name": "DCIC"}, {"name": "Agronomia"}],
+    "teachers": [
+        {"name": "Dra. Jessica Carballido"},
+        {"name": "Diego Garcia"},
+        {"name": "Dr. Alejandro Garcia"},
+        {"name": "Dr. Carlos Chesñevar"},
+        {"name": "Dr. Sergio Gomez"},
+        {"name": "Dr. Martin Larrea"},
+        {"name": "Dr. Luciano Tamargo"},
+        {"name": "Dra. Telma Delladio"},
+        {"name": "Dra. Andrea Cohen"},
+        {"name": "Dra. Laura Cobo"},
+        {"name": "Dr. Marcelo Falappa"},
+        {"name": "Dr Gerardo Simari"},
+        {"name": "Mg. karina Cenci"},
+        {"name": "Dr. Pablo Fillotrani"},
+        {"name": "Dr. Sebastian Gottifredi"},
+        {"name": "Mg. Mercedes Vitturini"},
+        {"name": "Dra. Dana Urribari"},
+        {"name": "Ing. Sergio Davicino"},
+        {"name": "Mg. Alenjandro Stankevicius"},
+        {"name": "Dra Lujan Ganuza "},
+        {"name": "Dr. Diego Martinez"},
+        {"name": "Ing. Leonardo De Matteis"},
+        {"name": "Dra Elsa Estévez"},
+        {"name": "Lic. José Moyano"}
+    ],
+    "subjects": [
+        {"name": "Resolución de Problemas y Algoritmos"},
+        {"name": "Teoría de la computabilidad"},
+        {"name": "Estructuras de Datos"},
+        {"name": "IPOO"},
+        {"name": "Lenguajes Formales y Autómatas"},
+        {"name": "Requerimientos de sistemas de software"},
+        {"name": "Lenguajes de Programación"},
+        {"name": "Logica para Ciencias de la Computación"},
+        {"name": "Gestion de Calidad en el Software"},
+        {"name": "Sistemas distribuidos"},
+        {"name": "Algoritmos y Complejidad"},
+        {"name": "Diseño y Desarrollo de Software"},
+        {"name": "Analisis y diseño de sistemas"},
+        {"name": "Arquitectura de Computadoras"},
+        {"name": "Arquitectura de Computadoras para Ingeniería"},
+        {"name": "Redes Y Teleprocesamiento"},
+        {"name": "Redes de Computadoras"},
+        {"name": "Computación Gráfica"},
+        {"name": "Ingenieria de Aplicaciones Web"},
+        {"name": "Seguridad en Sistemas"},
+        {"name": "Arquitectura y Diseño de Sistemas"},
+        {"name": "Organizacion de Computadoras"},
+        {"name": "Auditoría de sistemas"}
+    ],
+    "classrooms": [
+        {"name": "Aula 6", "capacity": 30, "place": "Palihue"},
+        {"name": "Aula 7", "capacity": 50, "place": "Palihue"},
+        {"name": "Aula 8", "capacity": 30, "place": "Palihue"},
+        {"name": "Aula S1", "capacity": 50, "place": "Alem"},
+        {"name": "Aula 5", "capacity": 50, "place": "Palihue"},
+        {"name": "Aula 116 (ex 38 c)", "capacity": 50, "place": "Alem"},
+        {"name": "Aula 16", "capacity": 50, "place": "Palihue"},
+        {"name": "Aula 2", "capacity": 50, "place": "Agronomia"},
+        {"name": "Aula 2", "capacity": 50, "place": "Palihue"},
+        {"name": "Aula 11", "capacity": 50, "place": "Palihue"},
+        {"name": "Aula 10", "capacity": 50, "place": "Palihue"},
+        {"name": "Aula 1", "capacity": 50, "place": "DCIC"},
+        {"name": "LP005", "capacity": 50, "place": "DCIC"},
+        {"name": "Aula 2", "capacity": 50, "place": "Palihue"},
+        {"name": "Aula 13", "capacity": 50, "place": "Palihue"},
+        {"name": "LP004", "capacity": 50, "place": "DCIC"},
+        {"name": "LP001", "capacity": 50, "place": "DCIC"},
+        {"name": "Aula 4", "capacity": 50, "place": "Palihue"},
+        {"name": "Aula 9", "capacity": 50, "place": "Palihue"},
+        {"name": "Aula 12", "capacity": 50, "place": "Palihue"}
+    ],
+
+    "commissions": [
+        {
+            "name": "RPA A-F",
+            "teacher": "Dra. Jesica Carballido",
+            "subject": "Resolución de Problemas y Algoritmos",
+            "students": 50,
+            "hoursPerWeek": 8
+        },
+        {
+            "name": "RPA G-N",
+            "teacher": "Diego García",
+            "subject": "Resolución de Problemas y Algoritmos",
+            "students": 50,
+            "hoursPerWeek": 8
+        },
+        {
+            "name": "RPA O-Z",
+            "teacher": "Dr. Alejandro García",
+            "subject": "Resolución de Problemas y Algoritmos",
+            "students": 50,
+            "hoursPerWeek": 8
+        },
+        {
+            "name": "TdC",
+            "teacher": "Dr. Carlos Chesñívar",
+            "subject": "Teoría de la Computabilidad",
+            "students": 50,
+            "hoursPerWeek": 8
+        },
+        {
+            "name": "ED A-K",
+            "teacher": "Dr. Sergio Gómez",
+            "subject": "Estructuras de Datos",
+            "students": 50,
+            "hoursPerWeek": 8
+        },
+        {
+            "name": "ED L-Z",
+            "teacher": "Dr. Martín Larrea",
+            "subject": "Estructuras de Datos",
+            "students": 50,
+            "hoursPerWeek": 8
+        },
+        {
+            "name": "IPOO",
+            "teacher": "Dr. Luciano Tamargo",
+            "subject": "IPOO",
+            "students": 50,
+            "hoursPerWeek": 8
+        },
+        {
+            "name": "LFyA",
+            "teacher": "Dra. Telma Delladio",
+            "subject": "Lenguajes Formales y Autómatas",
+            "students": 50,
+            "hoursPerWeek": 8
+        },
+        {
+            "name": "Req",
+            "teacher": "Dra. Andrea Cohen",
+            "subject": "Requerimientos de Sistemas",
+            "students": 50,
+            "hoursPerWeek": 8
+        },
+        {
+            "name": "LP",
+            "teacher": "Dra. Laura Cobo",
+            "subject": "Lenguajes de Programación",
+            "students": 50,
+            "hoursPerWeek": 8
+        },
+        {
+            "name": "Log",
+            "teacher": "Dr. Marcelo Falappa",
+            "subject": "Lógica para Ciencias de la Computación",
+            "students": 50,
+            "hoursPerWeek": 8
+        },
+        {
+            "name": "GCS",
+            "teacher": "Dr. Gerardo Simari",
+            "subject": "Gestión de Calidad en el Software",
+            "students": 50,
+            "hoursPerWeek": 8
+        },
+        {
+            "name": "SD",
+            "teacher": "Mg. Karina Cenci",
+            "subject": "Sistemas Distribuidos",
+            "students": 50,
+            "hoursPerWeek": 8
+        },
+        {
+            "name": "AyC",
+            "teacher": "Dr. Pablo Fillottrani",
+            "subject": "Algoritmos y Complejidad",
+            "students": 50,
+            "hoursPerWeek": 8
+        },
+        {
+            "name": "DDS",
+            "teacher": "Dr. Sebastián Gottfriedi",
+            "subject": "Diseño y Desarrollo de Software",
+            "students": 50,
+            "hoursPerWeek": 8
+        },
+        {
+            "name": "AnDS",
+            "teacher": "Mg. Mercedes Vitturini",
+            "subject": "Análisis y Diseño de Sistemas",
+            "students": 50,
+            "hoursPerWeek": 8
+        },
+        {
+            "name": "AdC",
+            "teacher": "Dra. Dana Urribarri",
+            "subject": "Arquitectura de Computadoras",
+            "students": 50,
+            "hoursPerWeek": 8
+        },
+        {
+            "name": "ACI",
+            "teacher": "Dra. Dana Urribarri",
+            "subject": "Arquitectura de Computadoras para Ingeniería",
+            "students": 50,
+            "hoursPerWeek": 8
+        },
+        {
+            "name": "RyT",
+            "teacher": "Ing. Sergio Davicino",
+            "subject": "Redes y Teleprocesamiento",
+            "students": 50,
+            "hoursPerWeek": 8
+        },
+        {
+            "name": "RdC",
+            "teacher": "Mg. Alejandro Stankevicius",
+            "subject": "Redes de Computadoras",
+            "students": 50,
+            "hoursPerWeek": 8
+        },
+        {
+            "name": "CG",
+            "teacher": "Dra. Luján Ganuza / Dr. Matías Selzer",
+            "subject": "Computación Gráfica",
+            "students": 50,
+            "hoursPerWeek": 8
+        },
+        {
+            "name": "IAW",
+            "teacher": "Dr. Diego Martínez",
+            "subject": "Ingeniería de Aplicaciones Web",
+            "students": 50,
+            "hoursPerWeek": 8
+        },
+        {
+            "name": "SS",
+            "teacher": "Ing. Leonardo De Matties",
+            "subject": "Seguridad en Sistemas",
+            "students": 50,
+            "hoursPerWeek": 8
+        },
+        {
+            "name": "ArDS",
+            "teacher": "Dra. Elsa Estévez",
+            "subject": "Arquitectura y Diseño de Sistemas",
+            "students": 50,
+            "hoursPerWeek": 8
+        },
+        {
+            "name": "OC",
+            "teacher": "Lic. José Moyano",
+            "subject": "Organización de Computadoras",
+            "students": 50,
+            "hoursPerWeek": 8
+        }
+    ],
+    "groups": [
+        {"name": "1er año ISS A-F"},
+        {"name": "1er año LCC A-F"},
+        {"name": "1er año IC A-F"},
+        {"name": "1er año ISS G-N"},
+        {"name": "1er año LCC G-N"},
+        {"name": "1er año IC G-N"},
+        {"name": "1er año ISS O-Z"},
+        {"name": "1er año LCC O-Z"},
+        {"name": "1er año IC O-Z"},
+        {"name": "2do año ISS A-K"},
+        {"name": "2do año LCC A-K"},
+        {"name": "2do año IC A-K"},
+        {"name": "2do año ISS L-Z"},
+        {"name": "2do año LCC L-Z"},
+        {"name": "2do año IC L-Z"},
+        {"name": "3er año ISS"},
+        {"name": "3er año LCC"},
+        {"name": "3er año IC"},
+        {"name": "4to año ISS"},
+        {"name": "4to año LCC"},
+        {"name": "4to año IC"},
+        {"name": "5to año ISS"},
+        {"name": "5to año LCC"},
+        {"name": "5to año IC"}
+    ],
+    "commisions_groups": [
+        {"commision": "RPA A-F", "group": "1er año ISS A-F"},
+        {"commision": "RPA A-F", "group": "1er año LCC A-F"},
+        {"commision": "RPA A-F", "group": "1er año IC A-F"},
+        {"commision": "RPA G-N", "group": "1er año ISS G-N"},
+        {"commision": "RPA G-N", "group": "1er año LCC G-N"},
+        {"commision": "RPA G-N", "group": "1er año IC G-N"},
+        {"commision": "RPA O-Z", "group": "1er año ISS O-Z"},
+        {"commision": "RPA O-Z", "group": "1er año LCC O-Z"},
+        {"commision": "RPA O-Z", "group": "1er año IC O-Z"},
+        {"commision": "ED A-K", "group": "2do año ISS A-K"},
+        {"commision": "ED A-K", "group": "2do año LCC A-K"},
+        {"commision": "ED A-K", "group": "2do año IC A-K"},
+        {"commision": "ED L-Z", "group": "2do año ISS L-Z"},
+        {"commision": "ED L-Z", "group": "2do año LCC L-Z"},
+        {"commision": "ED L-Z", "group": "2do año IC L-Z"},
+        {"commision": "TdC", "group": "2do año IC A-K"},
+        {"commision": "TdC", "group": "2do año IC L-Z"},
+        {"commision": "TdC", "group": "2do año LCC A-K"},
+        {"commision": "TdC", "group": "2do año LCC L-Z"},
+        {"commision": "TdC", "group": "2do año ISS A-K"},
+        {"commision": "TdC", "group": "2do año ISS L-Z"},
+        {"commision": "Req", "group": "3er año ISS"},
+        {"commision": "Log", "group": "3er año ISS"},
+        {"commision": "Log", "group": "3er año LCC"},
+        {"commision": "AdC", "group": "3er año ISS"},
+        {"commision": "AdC", "group": "3er año LCC"},
+        {"commision": "AnDS", "group": "3er año LCC"},
+        {"commision": "ACI", "group": "3er año IC"},
+        {"commision": "IAW", "group": "4to año ISS"},
+        {"commision": "IAW", "group": "5to año LCC"},
+        {"commision": "AyC", "group": "4to año ISS"},
+        {"commision": "AyC", "group": "5to año LCC"},
+        {"commision": "DDS", "group": "4to año LCC"},
+        {"commision": "LdP", "group": "4to año LCC"},
+        {"commision": "RdC", "group": "4to año LCC"},
+        {"commision": "RdC", "group": "5to año ISS"},
+        {"commision": "CG", "group": "4to año IC"},
+        {"commision": "RyT", "group": "4to año IC"},
+        {"commision": "GCS", "group": "5to año ISS"},
+        {"commision": "Aud", "group": "5to año IC"},
+        {"commision": "SD", "group": "5to año IC"}
+    ]
+}
