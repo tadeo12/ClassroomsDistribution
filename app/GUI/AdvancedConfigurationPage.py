@@ -5,7 +5,7 @@ import shutil
 
 CONFIG_FILE = "ConfigurationVars.py"
 CONSTRAINTS_FOLDER = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "Constraints"))
-ACTIVATED_FOLDER = os.path.join(CONSTRAINTS_FOLDER, "Activated")
+ACTIVATED_FOLDER = os.path.join(CONSTRAINTS_FOLDER, "Enabled")
 DISABLED_FOLDER = os.path.join(CONSTRAINTS_FOLDER, "Disabled")
 
 

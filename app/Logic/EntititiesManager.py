@@ -1,3 +1,4 @@
+import logging
 from Models.Place import Place
 from Models.Commission import Commission
 from Models.Classroom import Classroom
@@ -13,6 +14,9 @@ def createEntitiesFromJson(json_data):
         data = json.loads(json_data)
     else:  
         data = json_data
+
+
+    logging.info(f"DATA: '{data}'.")
 
     places = [Place(place_data['name']) for place_data in data['places']]
     places_dictionary = {place.name: place for place in places}
