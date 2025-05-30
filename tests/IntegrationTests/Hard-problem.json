@@ -1,0 +1,46 @@
+{
+    "places": [{"name": "universidad"}],
+    "teachers": [{"name": "teacher1"}, {"name": "teacher2"}, {"name": "teacher3"}, {"name": "teacher4"}],
+    "subjects": [{"name": "subject1"}, {"name": "subject2"}, {"name": "subject3"}, {"name": "subject4"}],
+    "classrooms": [
+        {"name": "aula1", "capacity": 80, "place": "universidad"},
+        {"name": "aula2", "capacity": 40, "place": "universidad"}
+    ],
+    "commissions": [
+        {
+            "name": "A",
+            "teacher": "teacher1",
+            "subject": "subject1",
+            "students": 40,
+            "hoursPerWeek": 8
+        },
+        {
+            "name": "B",
+            "teacher": "teacher1",
+            "subject": "subject2",
+            "students": 80,
+            "hoursPerWeek": 8
+        },
+        {
+            "name": "C",
+            "teacher": "teacher2",
+            "subject": "subject3",
+            "students": 80,
+            "hoursPerWeek": 8
+        },
+        {
+            "name": "D",
+            "teacher": "teacher2",
+            "subject": "subject4",
+            "students": 40,
+            "hoursPerWeek": 8
+        }
+    ],
+    "groups": [{"name": "group1"}, {"name": "group2"}, {"name": "group3"}, {"name": "group4"}],
+    "commisions_groups": [
+        {"commision": "A", "group": "group1"},
+        {"commision": "B", "group": "group2"},
+        {"commision": "C", "group": "group3"},
+        {"commision": "D", "group": "group4"}
+    ]
+}
