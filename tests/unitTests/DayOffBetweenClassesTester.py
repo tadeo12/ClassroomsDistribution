@@ -7,9 +7,6 @@ from app.Models.Classroom import *
 from app.Models.Place import *
 
 
-
-#IMPORTANTE PARA 
-
 class TestDayOffBetweenClassesEvaluator(unittest.TestCase):
     def test_2_consecutitives_days_allocation_have_penalty_greater_than_zero(self):
         evaluator = DayOffBetweenClassesEvaluator()

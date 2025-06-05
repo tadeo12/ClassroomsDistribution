@@ -1,4 +1,4 @@
-from Constraints.BaseEvaluator import BaseEvaluator
+from ..BaseEvaluator import BaseEvaluator
 from collections import defaultdict
 
 def groupByDayAndCommission(allocation):
@@ -14,8 +14,8 @@ def countClasses(sortedResources):
             classes += 1
     return classes
 
-class MaxOneClassPerDay(BaseEvaluator):
-    def evaluate(allocation):
+class MaxOneClassPerDayEvaluator(BaseEvaluator):
+    def evaluate(self,allocation):
         resourcesByDayAndCommission = groupByDayAndCommission(allocation)
         penalty = 0
         for day, commissions in resourcesByDayAndCommission.items():

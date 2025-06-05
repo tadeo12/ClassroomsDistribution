@@ -1,4 +1,4 @@
-from Constraints.BaseEvaluator import BaseEvaluator
+from ..BaseEvaluator import BaseEvaluator
 from collections import defaultdict
 
 def groupByCommission(allocation):
@@ -16,5 +16,5 @@ class MaxTwoDaysPerWeekEvaluator(BaseEvaluator):
             days = set()
             for resource in resources:
                 days.add(resource.day)
-            penalty += len(days) - 2 
+            penalty += max(len(days) - 2, 0)
         return penalty
