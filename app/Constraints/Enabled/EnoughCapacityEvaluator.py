@@ -1,4 +1,4 @@
-from ..BaseEvaluator import BaseEvaluator
+from app.Constraints.BaseEvaluator import BaseEvaluator
 
 class EnoughCapacityEvaluator(BaseEvaluator):
     def evaluate(self, allocation):

@@ -1,6 +1,6 @@
 import streamlit as st
 
-from PDFGenerator import createPdf
+from app.PDFGenerator import createPdf
 
 def resultsPage():
     st.title("Resultados de la Ejecución")
@@ -17,9 +17,12 @@ def resultsPage():
         st.subheader("Evaluation")
         st.json(st.session_state.evaluation)
 
-        if st.button("Generar PDF"):
-            createPdf(st.session_state.finalAllocation)
-            st.success("PDF generado con éxito.")
+
+        createPdf(st.session_state.finalAllocation)
+        with open("horarios_clase.pdf", "rb") as f:
+            pdf_data = f.read()
+        
+        st.download_button(label="Generar PDF",data=pdf_data,file_name="horarios_clase.pdf",mime="aplication/pdf")
                     
     else:
         st.write("No hay resultados disponibles. Por favor, ejecute el algoritmo primero.")

@@ -1,7 +1,7 @@
-from ..BaseEvaluator import BaseEvaluator
+from app.Constraints.BaseEvaluator import BaseEvaluator
 from collections import defaultdict
 
-from ...ConfigurationVars import HOURS_PER_RESOURCE
+from ConfigurationVars import HOURS_PER_RESOURCE
 
 
 def groupByDayAndCommission(allocation):

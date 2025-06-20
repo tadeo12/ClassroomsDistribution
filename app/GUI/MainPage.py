@@ -3,12 +3,10 @@ from streamlit_ace import st_ace
 import streamlit as st
 import json
 from ConfigurationVars  import *
-
-from Logic.EjecutionHandler import ejecutionButtonHandler
-from Logic.EntititiesManager import createEntitiesFromJson
-from .EntitiesDataInputInterface import entitiesDataInput
-
-from .PredefiniedAllocationInput import predefiniedAllocationInput
+from app.Logic.EjecutionHandler import ejecutionButtonHandler
+from app.Logic.EntititiesManager import createEntitiesFromJson
+from app.GUI.EntitiesDataInputInterface import entitiesDataInput
+from app.GUI.PredefiniedAllocationInput import predefiniedAllocationInput
 
 def mainPage():
     loadSessionStateVariables()

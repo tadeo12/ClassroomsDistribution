@@ -1,5 +1,5 @@
 import logging
-from .ConstraintLoader import load_evaluation_functions
+from app.Logic.ConstraintLoader import load_evaluation_functions
 
 
 def evaluate(allocation: dict):
@@ -7,6 +7,7 @@ def evaluate(allocation: dict):
     totalCost=0
     info = ""
     for function, evaluatorClass in functions.items():
+        print(evaluatorClass)
         cost=  evaluatorClass().evaluate(allocation)
         info += f"penalizacion de '{function}' : {cost}\n"
         print(info)

@@ -1,7 +1,7 @@
 from typing import List
 from ConfigurationVars import *
-from Models.Classroom import Classroom
-from Models.Resource import Resource
+from app.Models.Classroom import Classroom
+from app.Models.Resource import Resource
 
 def generateResources(classrooms: List[Classroom]) -> list:
     resources = []

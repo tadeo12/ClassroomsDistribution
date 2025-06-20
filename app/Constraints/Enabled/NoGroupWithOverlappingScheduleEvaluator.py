@@ -1,5 +1,5 @@
 from collections import defaultdict
-from ..BaseEvaluator import BaseEvaluator
+from app.Constraints.BaseEvaluator import BaseEvaluator
 
 
 def groupByDayAndHour(allocation):

@@ -1,6 +1,6 @@
 from collections import defaultdict
-from ..BaseEvaluator import BaseEvaluator
-from ...ConfigurationVars import DAYS_PER_WEEK
+from app.Constraints.BaseEvaluator import BaseEvaluator
+from ConfigurationVars import DAYS_PER_WEEK
 
 
 def groupByCommissionAndDay(allocation):

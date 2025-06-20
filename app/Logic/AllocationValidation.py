@@ -1,7 +1,7 @@
 from collections import Counter
 from ConfigurationVars import HOURS_PER_RESOURCE
-from Models.Commission import Commission
-from Models.Resource import Resource
+from app.Models.Commission import Commission
+from app.Models.Resource import Resource
 
 class InvalidAllocationError(Exception):
     """Excepción personalizada para asignaciones inválidas."""

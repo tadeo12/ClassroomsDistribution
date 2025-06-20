@@ -1,10 +1,8 @@
 import random
 import math
-from Models import *
-
-from .Evaluator import evaluate
+from app.Models import *
+from app.Logic.Evaluator import evaluate
 from ConfigurationVars import *
-
 
 
 def generateNeighbor(allocation: dict):

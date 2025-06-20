@@ -18,7 +18,8 @@ def import_file(folder, file):
 
 def load_evaluation_functions():
     """Carga funciones 'evaluate' de módulos en la carpeta 'Constraints'."""
-    folder = "Constraints"
+    from app.GUI.AdvancedConfigurationPage import ACTIVATED_FOLDER
+    folder = ACTIVATED_FOLDER
     functions = {}
 
     if not os.path.exists(folder):
@@ -44,6 +45,6 @@ def load_evaluation_functions():
                     logging.warning(f"El archivo '{file}' no contiene una clase '{class_name}'.")
             else:
                 logging.warning(f"No se pudo importar el módulo '{file}'.")
-
+    print("funciones de penalizacion cargadas: "+str(functions))
     return functions
 

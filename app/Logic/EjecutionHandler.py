@@ -1,8 +1,8 @@
 import streamlit as st
-from .AllocationValidation import validate
-from .RandomInitialAllocationGenerator import generateRandomInitialAllocation
-from .SimulatedAnnealing import simulatedAnnealing
-from .Evaluator import evaluate
+from app.Logic.AllocationValidation import validate
+from app.Logic.RandomInitialAllocationGenerator import generateRandomInitialAllocation
+from app.Logic.SimulatedAnnealing import simulatedAnnealing
+from app.Logic.Evaluator import evaluate
 
 
 def ejecutionButtonHandler(initialAllocation: dict = None):

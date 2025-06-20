@@ -1,9 +1,9 @@
 import os
 import streamlit as st
 
-from .ResultsPage import resultsPage
-from .AdvancedConfigurationPage import advancedConfigurationPage
-from .MainPage import mainPage
+from app.GUI.ResultsPage import resultsPage
+from app.GUI.AdvancedConfigurationPage import advancedConfigurationPage
+from app.GUI.MainPage import mainPage
 
 def main(): 
 

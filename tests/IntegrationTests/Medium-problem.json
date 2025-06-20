@@ -37,10 +37,10 @@
         }
     ],
     "groups": [{"name": "group1"}, {"name": "group2"}, {"name": "group3"}, {"name": "group4"}],
-    "commisions_groups": [
-        {"commision": "A", "group": "group1"},
-        {"commision": "B", "group": "group2"},
-        {"commision": "C", "group": "group3"},
-        {"commision": "D", "group": "group4"}
+    "commissions_groups": [
+        {"commission": "A", "group": "group1"},
+        {"commission": "B", "group": "group2"},
+        {"commission": "C", "group": "group3"},
+        {"commission": "D", "group": "group4"}
     ]
 }

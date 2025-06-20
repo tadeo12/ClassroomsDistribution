@@ -1,13 +1,13 @@
 import logging
-from Models.Place import Place
-from Models.Commission import Commission
-from Models.Classroom import Classroom
-from Models.Resource import Resource
-from Models.Teacher import Teacher
-from Models.Subject import Subject
+from app.Models.Place import Place
+from app.Models.Commission import Commission
+from app.Models.Classroom import Classroom
+from app.Models.Resource import Resource
+from app.Models.Teacher import Teacher
+from app.Models.Subject import Subject
 import json
-from Models.Group import Group
-from .ResourcesGenerator import generateResources
+from app.Models.Group import Group
+from app.Logic.ResourcesGenerator import generateResources
 
 def createEntitiesFromJson(json_data):
     if isinstance(json_data, str): 

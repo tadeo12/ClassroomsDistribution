@@ -1,4 +1,4 @@
-from ..BaseEvaluator import BaseEvaluator
+from app.Constraints.BaseEvaluator import BaseEvaluator
 from collections import defaultdict
 
 def groupByCommission(allocation):

@@ -1,8 +1,8 @@
 from typing import List
 import random
 from ConfigurationVars import *  
-from Models.Commission import Commission
-from Models.Resource import Resource
+from app.Models.Commission import Commission
+from app.Models.Resource import Resource
 
 
 def generateRandomInitialAllocation(commissions: List[Commission], resources: List[Resource]):
