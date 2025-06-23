@@ -9,10 +9,19 @@ def resultsPage():
 
         detailedFinalAllocation = {str(key): str(value) for key, value in st.session_state.finalAllocation.items()}
         finalAllocation = {key.id: value for key, value in st.session_state.finalAllocation.items() if value != -1}
-        if(st.radio("Mostrar asignación detallada", ("Sí", "No")) == "Sí"):
+        if st.radio("Mostrar asignación detallada", ("Sí", "No")) == "Sí":
+            detailedFinalAllocation = {str(key): str(value) for key, value in st.session_state.finalAllocation.items()}
             st.json(detailedFinalAllocation)
         else:
-            st.json(finalAllocation)
+            finalAllocation = {
+                key: value for key, value in st.session_state.finalAllocation.items() if value != -1
+            }
+            formatted_allocation = {
+                f"({key.day}, {key.hour}, '{key.classroom.name}')": value.name
+                for key, value in finalAllocation.items()
+            }
+            st.json(formatted_allocation)
+
         
         st.subheader("Evaluation")
         st.json(st.session_state.evaluation)

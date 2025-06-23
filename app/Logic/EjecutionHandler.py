@@ -5,18 +5,21 @@ from app.Logic.SimulatedAnnealing import simulatedAnnealing
 from app.Logic.Evaluator import evaluate
 
 
-def ejecutionButtonHandler(initialAllocation: dict = None):
+def ejecutionButtonHandler():
     commissions = st.session_state.entities["commissions"]
     resources = st.session_state.entities["resources"]
-     
-    if not initialAllocation:
+
+    if st.session_state.allocation_type == "Aleatoria":
         initialAllocation = generateRandomInitialAllocation(commissions, resources)
-    else:
-        validate(initialAllocation)
+    else:  # "Predefinida"
+        if "initialAllocation" not in st.session_state or st.session_state.initialAllocation is None:
+            st.error("Debe cargar una asignación predefinida antes de ejecutar el algoritmo.")
+            return
+        validate(st.session_state.initialAllocation)
+        initialAllocation = st.session_state.initialAllocation
 
     st.session_state["finalAllocation"] = simulatedAnnealing(initialAllocation)
     st.session_state["evaluation"] = evaluate(st.session_state["finalAllocation"])
-
     st.rerun()
 
 

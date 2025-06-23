@@ -2,59 +2,86 @@ import streamlit as st
 from streamlit_ace import st_ace
 import json
 import pandas as pd
+import ast
 
-
-def predefiniedAllocationInput():
-    inputFriendlyOption = st.radio("¿como desea ingresar la distribución inicial?",["Json", "Tabla"], horizontal=True)
-    if inputFriendlyOption == "Json":
+def showPredefiniedAllocationInput():
+    inputOption = st.radio("¿cómo desea ingresar la distribución inicial?", ["Escribir Json", "Arrastrar archivo"], horizontal=True)
+    if inputOption == "Escribir Json":
         AllocationJsonInput()
     else:
-        AllocationTableInput() 
-        
+        AllocationFileInput()
+
+def AllocationFileInput():
+    st.subheader("Arrastre un archivo con la distribución predefinida")
+    uploaded_file = st.file_uploader("Seleccione un archivo JSON", type=["json"])
+    if uploaded_file is not None:
+        try:
+            data = json.load(uploaded_file)
+        except json.JSONDecodeError:
+            st.error("El archivo no contiene un JSON válido.")
+            return
+        except Exception as e:
+            st.error(f"Error al leer el archivo: {e}")
+            return
+
+        try:
+            generateInitialAllocationFromJson(data)
+            st.success("Archivo cargado correctamente")
+        except Exception as e:
+            st.error(f"Error procesando la distribución: {e}")
+            return
+
+        if "show_allocation" not in st.session_state:
+            st.session_state.show_allocation = False
+
+        if st.button("Mostrar distribución cargada"):
+            st.session_state.show_allocation = not st.session_state.show_allocation
+
+
+        if st.session_state.get("show_allocation"):
+            st.json(st.session_state.initialAllocation)
+
 def AllocationJsonInput():
     st.subheader("Ingrese JSON para la distribución predefinida")
     predef_json = st_ace("{}", language='json', height=300)
     if st.button("Guardar distribución"):
         try:
-            json.loads(predef_json)
-                #TODO validacion del json
-            st.success("Distribución guardada")
+            data = json.loads(predef_json)
         except json.JSONDecodeError:
-            st.error("JSON inválido") 
+            st.error("JSON inválido")
+            return
 
-def AllocationTableInput():
+        try:
+            generateInitialAllocationFromJson(data)
+            st.success("Distribución guardada")
+        except Exception as e:
+            st.error(f"Error procesando la distribución: {e}")
+
+def generateInitialAllocationFromJson(data):
+    allocation = {}
     resources = st.session_state.entities["resources"]
     commissions = st.session_state.entities["commissions"]
+    resource_lookup = {(r.day, r.hour, r.classroom.name): r for r in resources}
+    commission_lookup = {c.name: c for c in commissions}
 
-    resource_dict = {r.id: r for r in resources}
+    for keyString, commission_name in data.items():
+        try:
+            key = ast.literal_eval(keyString)
+        except Exception:
+            raise ValueError(f"Clave inválida (no se pudo interpretar): {keyString}")
 
-    df = pd.DataFrame({
-            "Resource ID": [r.id for r in resources],
-            "Resource": [str(r) for r in resources],
-            "Commission": [None] * len(resources)  # Inicialmente vacío
-        })
-    
-    st.title("Asignar Comisiones a Recursos")
+        if not isinstance(key, tuple) or len(key) != 3:
+            raise ValueError(f"Clave inválida (debe ser una tupla de 3 elementos): {keyString}")
 
-    st.write("Edita la columna 'Commission' para asignar una comisión a cada recurso.")
+        day, hour, classroom_name = key
+        resource = resource_lookup.get((day, hour, classroom_name))
+        if resource is None:
+            raise ValueError(f"No se encontró el recurso para la clave: {key}")
 
-    df_editable = st.data_editor(
-            df,
-            column_config={
-                "Commission": st.column_config.SelectboxColumn(
-                    "Commission",
-                    options=[repr(c) for c in commissions],  # Opciones en el selectbox
-                    required=True,
-                )
-            },
-            hide_index=True
-        )
+        commission = commission_lookup.get(commission_name)
+        if commission is None:
+            raise ValueError(f"No se encontró la comisión: {commission_name}")
 
-    if st.button("Guardar Asignación"):
-        result = {
-                resource_dict[row["Resource ID"]]: next(c for c in commissions if repr(c) == row["Commission"])
-                for _, row in df_editable.iterrows()
-            }
-        st.success("Asignación completada:")
-        st.json({repr(k): repr(v) for k, v in result.items()})
+        allocation[resource] = commission
 
+    st.session_state.initialAllocation = allocation

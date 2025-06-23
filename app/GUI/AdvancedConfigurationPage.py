@@ -48,16 +48,13 @@ def move_constraint(file, source_folder, target_folder):
     if os.path.exists(src_path):
         shutil.move(src_path, dest_path)
 
-# Página de configuración avanzada
 def advancedConfigurationPage():
     st.subheader("Configuración del algoritmo")
     st.write("Modificar solo si sabes lo que estás haciendo.")
 
-    # Cargar configuración actual
     config = load_config()
     new_config = {}
 
-    # Mostrar cada variable con un campo de entrada adecuado
     for key, value in config.items():
         if isinstance(value, int):
             new_config[key] = st.number_input(f"{key}", value=value, step=1)
@@ -68,21 +65,17 @@ def advancedConfigurationPage():
         else:
             new_config[key] = st.text_input(f"{key}", value=str(value))
 
-    # Guardar cambios
     if st.button("Guardar configuración"):
         save_config(new_config)
         st.success("Archivo de configuración guardado")
 
-    # Sección de gestión de restricciones
     st.subheader("Gestión de Restricciones")
     activated, disabled = get_constraints()
 
     st.write("Selecciona qué restricciones quieres activar o desactivar.")
     
-    # Checkbox para restricciones activadas
     selected_activated = st.multiselect("Restricciones activadas", activated + disabled, activated)
     
-    # Botón para aplicar cambios en restricciones
     if st.button("Actualizar restricciones"):
         for file in activated:
             if file not in selected_activated:

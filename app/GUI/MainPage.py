@@ -6,7 +6,7 @@ from ConfigurationVars  import *
 from app.Logic.EjecutionHandler import ejecutionButtonHandler
 from app.Logic.EntititiesManager import createEntitiesFromJson
 from app.GUI.EntitiesDataInputInterface import entitiesDataInput
-from app.GUI.PredefiniedAllocationInput import predefiniedAllocationInput
+from app.GUI.PredefiniedAllocationInput import showPredefiniedAllocationInput
 
 def mainPage():
     loadSessionStateVariables()
@@ -39,7 +39,7 @@ def leftColumnContent():
 
 def rigthColumnContent():
     st.subheader("Distribución inicial")
-    initialOptionSelector = st.radio("seleccion de distribución inicial", ["Predefinida", "Aleatoria"], index=1)
+    initialOptionSelector = st.radio("seleccion de distribución inicial", ["Predefinida", "Aleatoria"], index=1, key="allocation_type")
     st.session_state.setdefault
     newWidth = 5 if initialOptionSelector == "Predefinida" else 8
     if newWidth != st.session_state.colWidth:
@@ -47,9 +47,9 @@ def rigthColumnContent():
         st.rerun()  
 
     if initialOptionSelector == "Predefinida":
-       predefiniedAllocationInput()
+       showPredefiniedAllocationInput()
     
     if st.button("Ejecutar algoritmo"):
-        with st.spinner("Ejecutando algoritmo..."):     
+        with st.spinner("Ejecutando algoritmo..."):
             ejecutionButtonHandler()
 
