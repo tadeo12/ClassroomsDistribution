@@ -1,38 +1,58 @@
 import logging
 from app.Logic.ConstraintLoader import load_evaluation_functions
+from ConfigManager import ConfigManager
+from app.Logic.PenaltyWeights import weights
 
+_functionsCache = None
 
-def evaluate(allocation: dict):
-    functions = load_evaluation_functions()
+def _getFunctions():
+    global _functionsCache
+    if _functionsCache is None:
+        _functionsCache = load_evaluation_functions()
+    return _functionsCache
+
+def summmatoryEvaluation(allocation: dict):
     totalCost=0
     info = ""
-    for function, evaluatorClass in functions.items():
-        print(evaluatorClass)
-        cost=  evaluatorClass().evaluate(allocation)
+    for function, evaluatorClass in _getFunctions().items():
+        cost=evaluatorClass().evaluate(allocation)
         info += f"penalizacion de '{function}' : {cost}\n"
-        print(info)
         if cost is not None:
             totalCost +=  cost
         else:
             logging.error(f"Error al calcular la penalizacion de {function}")
     return totalCost, info
+    
+
+def fixedWeightedPenaltyEvaluation(allocation):
+    totalCost = 0
+    info = ""
+    for function, evaluatorClass in _getFunctions().items():
+        cost = evaluatorClass().evaluate(allocation)
+        weight = weights.get(function)
+
+        if cost is None:
+            logging.error(f"Error al calcular la penalización de {function}")
+            raise ValueError(f"Cost es None para {function}")
+        if weight is None:
+            logging.error(f"Error al cargar el peso de la penalización de {function}")
+            raise ValueError(f"Peso no definido para {function}")
+        
+        info += f"penalización de '{function}' : {cost}\n"
+        totalCost += weight * cost
+
+    return totalCost, info
 
 
-#def evaluar(distribucion):
-    #penalizacion = 0
-    ## Penalización por capacidad del aula
-    #for dictado, recurso in distribucion.items():
-        #if dictado.comision.cant_alumnos > recurso.aula.capacidad:
-            #penalizacion += 100  # Penalización por exceso de alumnos
+def evaluate(allocation: dict):
+    #print("evaluando")
+    match ConfigManager().getConfig()["PENALTY_FUNCTION"]:
+        case "sum":
+            return summmatoryEvaluation(allocation)
+        case "fwp":
+            return fixedWeightedPenaltyEvaluation(allocation)
+        case _:
+            return fixedWeightedPenaltyEvaluation(allocation)
 
-    ## Penalización por asignar c1 y c2 al mismo día
-    #dictados = list(distribucion.items())  # Convertimos el map a una lista
-    #for i in range(len(dictados)):
-        #dictado1, recurso1 = dictasdos[i]
-        #for j in range(i + 1, len(dictados)):
-            #dictado2, recurso2 = dictados[j]
 
-            ## Si es la misma comisión y ambos dictados están en el mismo día
-            #if dictado1.comision == dictado2.comision and recurso1.dia == recurso2.dia:
-                #penalizacion += 1  # Penalización por ambos dictados el mismo día
-    #return penalizacion
+    

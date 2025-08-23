@@ -5,7 +5,7 @@ from app.Logic.SimulatedAnnealing import simulatedAnnealing
 from app.Logic.Evaluator import evaluate
 
 
-def ejecutionButtonHandler():
+def ejecutionButtonHandler(progressCallback = None):
     commissions = st.session_state.entities["commissions"]
     resources = st.session_state.entities["resources"]
 
@@ -18,9 +18,8 @@ def ejecutionButtonHandler():
         validate(st.session_state.initialAllocation)
         initialAllocation = st.session_state.initialAllocation
 
-    st.session_state["finalAllocation"] = simulatedAnnealing(initialAllocation)
+    st.session_state["finalAllocation"] = simulatedAnnealing(initialAllocation, progressCallback)
     st.session_state["evaluation"] = evaluate(st.session_state["finalAllocation"])
-    st.rerun()
 
 
 

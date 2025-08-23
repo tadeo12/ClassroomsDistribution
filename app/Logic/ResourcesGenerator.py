@@ -1,15 +1,25 @@
-from typing import List
-from ConfigurationVars import *
+from typing import List 
 from app.Models.Classroom import Classroom
 from app.Models.Resource import Resource
+from ConfigManager import ConfigManager
 
-def generateResources(classrooms: List[Classroom]) -> list:
+def generateResources(classrooms: List[Classroom], classroomsAvailability) -> list:
+    config = ConfigManager().getConfig()
+    hoursPerDay = config["HOURS_PER_DAY"]
+    hoursPerResource = config["HOURS_PER_RESOURCE"]
+    daysPerWeek = config["DAYS_PER_WEEK"]
+
     resources = []
-    slotsPerDay= int(HOURS_PER_DAY / HOURS_PER_RESOURCE)
+    slotsPerDay = int(hoursPerDay / hoursPerResource)
+
     for classroom in classrooms:
-        for day in range(DAYS_PER_WEEK):
+        available_slots = classroomsAvailability.get(classroom)
+        allowAll = not available_slots 
+        for day in range(daysPerWeek):
             for slot in range(slotsPerDay):
-                resource = Resource(classroom, day, slot)
-                resources.append(resource)
+                if allowAll or (day, slot) in available_slots:
+                    resource = Resource(classroom, day, slot)
+                    resources.append(resource)
+
     return resources
 

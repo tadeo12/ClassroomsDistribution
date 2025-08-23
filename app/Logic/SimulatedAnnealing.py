@@ -1,9 +1,7 @@
 import random
 import math
-from app.Models import *
 from app.Logic.Evaluator import evaluate
-from ConfigurationVars import *
-
+from ConfigManager import ConfigManager
 
 def generateNeighbor(allocation: dict):
     neighbor = allocation.copy()
@@ -12,16 +10,22 @@ def generateNeighbor(allocation: dict):
     neighbor[A], neighbor[B] =  neighbor[B], neighbor[A] 
     return neighbor 
 
-
-def simulatedAnnealing(initialAllocation: dict):
+def simulatedAnnealing(initialAllocation: dict, progressCallback = None):
+    config = ConfigManager().getConfig()   
+    trc = config["TEMPERATURE_REDUCTION_COEFFICIENT"]
+    maxI = config["MAX_ITERATIONS"]
     solution = initialAllocation
     current = solution
-    trc = TEMPERATURE_REDUCTION_COEFFICIENT
     temperature=1
     i= 0
     currentCost = evaluate(initialAllocation)[0]
     solutionCost = currentCost
-    while i < MAX_ITERATIONS and solutionCost > 0:
+
+    if progressCallback:
+        checkpoint = max(1, maxI // 100)
+
+    while i < maxI and solutionCost > 0:
+        #print(f"iteracion: {i}")
         i+=1
         neighbor = generateNeighbor(current)
         neighborEvaluation = evaluate(neighbor)
@@ -36,4 +40,9 @@ def simulatedAnnealing(initialAllocation: dict):
                 current = neighbor
                 currentCost=neighborEvaluation[0]
         temperature *= trc
+
+        if progressCallback and i % checkpoint == 0:
+            progressCallback(int((i/maxI)* 100), solutionCost)
+
+    print("fin del algoritmo")
     return solution

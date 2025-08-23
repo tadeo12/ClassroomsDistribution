@@ -1,47 +1,22 @@
 import os
-import re
 import streamlit as st
 import shutil
 
-CONFIG_FILE = "ConfigurationVars.py"
+
+from ConfigManager import ConfigManager
+
+configManager = ConfigManager()
+
 CONSTRAINTS_FOLDER = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "Constraints"))
 ACTIVATED_FOLDER = os.path.join(CONSTRAINTS_FOLDER, "Enabled")
 DISABLED_FOLDER = os.path.join(CONSTRAINTS_FOLDER, "Disabled")
 
 
-# Función para cargar variables del archivo de configuración
-def load_config():
-    config = {}
-    if os.path.exists(CONFIG_FILE):
-        with open(CONFIG_FILE, "r") as f:
-            for line in f:
-                match = re.match(r"^([a-zA-Z_][a-zA-Z0-9_]*)\s*=\s*(.*)$", line.strip())
-                if match:
-                    var_name, var_value = match.groups()
-                    # Intentamos evaluar el valor de manera segura
-                    try:
-                        parsed_value = eval(var_value, {"__builtins__": {}})
-                    except Exception:
-                        parsed_value = var_value.strip('"').strip("'")  # Dejar como string si hay error
-                    config[var_name] = parsed_value
-    return config
-
-# Función para guardar variables en el archivo de configuración
-def save_config(config):
-    with open(CONFIG_FILE, "w") as f:
-        for key, value in config.items():
-            if isinstance(value, str):
-                f.write(f'{key} = "{value}"\n')
-            else:
-                f.write(f"{key} = {value}\n")
-
-# Función para obtener restricciones activadas y desactivadas
 def get_constraints():
     activated = [f for f in os.listdir(ACTIVATED_FOLDER) if f.endswith("Evaluator.py")]
     disabled = [f for f in os.listdir(DISABLED_FOLDER) if f.endswith("Evaluator.py")]
     return activated, disabled
 
-# Función para mover restricciones entre activadas y desactivadas
 def move_constraint(file, source_folder, target_folder):
     src_path = os.path.join(source_folder, file)
     dest_path = os.path.join(target_folder, file)
@@ -52,21 +27,28 @@ def advancedConfigurationPage():
     st.subheader("Configuración del algoritmo")
     st.write("Modificar solo si sabes lo que estás haciendo.")
 
-    config = load_config()
-    new_config = {}
+    config = configManager.getConfig()
+    newConfig = {}
 
     for key, value in config.items():
         if isinstance(value, int):
-            new_config[key] = st.number_input(f"{key}", value=value, step=1)
+            newConfig[key] = st.number_input(f"{key}", value=value, step=1)
         elif isinstance(value, float):
-            new_config[key] = st.number_input(f"{key}", value=value, step=0.01)
+            if key == "TEMPERATURE_REDUCTION_COEFFICIENT":
+                newConfig[key] = st.number_input(
+                    f"{key}", value=value, step=0.00000000000001, format="%.16f"
+                )
+            else:
+                newConfig[key] = st.number_input(
+                    f"{key}", value=value, step=0.01
+                )
         elif isinstance(value, bool):
-            new_config[key] = st.checkbox(f"{key}", value=value)
+            newConfig[key] = st.checkbox(f"{key}", value=value)
         else:
-            new_config[key] = st.text_input(f"{key}", value=str(value))
+            newConfig[key] = st.text_input(f"{key}", value=str(value))
 
     if st.button("Guardar configuración"):
-        save_config(new_config)
+        configManager.updateConfig(newConfig)
         st.success("Archivo de configuración guardado")
 
     st.subheader("Gestión de Restricciones")

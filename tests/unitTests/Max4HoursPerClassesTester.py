@@ -1,7 +1,7 @@
 import unittest
 from unittest.mock import patch
 
-from app.Constraints.Enabled.Max4HoursPerClassesEvaluator import Max4HoursPerClassEvaluator
+from app.Constraints.Enabled.Max4HoursPerClassEvaluator import Max4HoursPerClassEvaluator
 from app.Models.Resource import *
 from app.Models.Commission import *
 from app.Models.Teacher import *

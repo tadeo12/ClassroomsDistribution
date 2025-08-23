@@ -1,8 +1,6 @@
 from app.Constraints.BaseEvaluator import BaseEvaluator
 from collections import defaultdict
-
-from ConfigurationVars import HOURS_PER_RESOURCE
-
+from ConfigManager import ConfigManager
 
 def groupByDayAndCommission(allocation):
         resourcesByDayAndCommission = defaultdict(lambda: defaultdict(list))
@@ -12,7 +10,8 @@ def groupByDayAndCommission(allocation):
 
 class Max4HoursPerClassEvaluator(BaseEvaluator):
     def evaluate(self, allocation):
-        maxResources = int(4 / HOURS_PER_RESOURCE) 
+        hoursPerResource = ConfigManager().getConfig()["HOURS_PER_RESOURCE"]
+        maxResources = int(4 /hoursPerResource ) 
         penalty = 0
         resourcesByDayAndCommission = groupByDayAndCommission(allocation)
         for day, commissions in resourcesByDayAndCommission.items():

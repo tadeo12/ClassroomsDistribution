@@ -1,7 +1,9 @@
 from collections import Counter
-from ConfigurationVars import HOURS_PER_RESOURCE
 from app.Models.Commission import Commission
 from app.Models.Resource import Resource
+from ConfigManager import ConfigManager
+
+
 
 class InvalidAllocationError(Exception):
     """Excepción personalizada para asignaciones inválidas."""
@@ -24,10 +26,11 @@ def validate(Allocation: dict) -> None:
     enoughtHoursValidation(commission_count)
 
 def enoughtHoursValidation(commission_count):
+    hoursPerResource = ConfigManager().getConfig()["HOURS_PER_RESOURCE"]
     for commission, count in commission_count.items():
-        if count * HOURS_PER_RESOURCE != commission.hours:
+        if count * hoursPerResource != commission.hours:
             raise InvalidAllocationError(
                 f"La comisión {commission} está asignada a {count} recursos, "
-                f"pero requiere exactamente {commission.hour / HOURS_PER_RESOURCE}."
+                f"pero requiere exactamente {commission.hour / hoursPerResource}."
             )
 

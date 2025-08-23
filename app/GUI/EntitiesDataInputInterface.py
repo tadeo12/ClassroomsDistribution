@@ -1,7 +1,7 @@
 import streamlit as st
 from streamlit_ace import st_ace
 import json
-from ConfigurationVars  import INPUT_DATA_FILE_PATH 
+from ConfigManager import ConfigManager 
 
 def entitiesDataInput():
     st.subheader("Edición de data.json")
@@ -19,5 +19,6 @@ def saveInputEntitiesButtonHandler(entitiesJsonText):
         st.error("JSON inválido")
 
 def saveEntitiesJson(data):
-    with open(INPUT_DATA_FILE_PATH, "w", encoding="utf-8") as f:
+    inputDataFilePath = ConfigManager().getConfig()["INPUT_DATA_FILE_PATH"]
+    with open(inputDataFilePath, "w", encoding="utf-8") as f:
         json.dump(data, f, indent=4, ensure_ascii=False)

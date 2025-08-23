@@ -2,9 +2,9 @@ import os
 from streamlit_ace import st_ace
 import streamlit as st
 import json
-from ConfigurationVars  import *
+from ConfigManager import ConfigManager
 from app.Logic.EjecutionHandler import ejecutionButtonHandler
-from app.Logic.EntititiesManager import createEntitiesFromJson
+from app.Logic.EntititiesInitializer import createEntitiesFromJson
 from app.GUI.EntitiesDataInputInterface import entitiesDataInput
 from app.GUI.PredefiniedAllocationInput import showPredefiniedAllocationInput
 
@@ -29,8 +29,9 @@ def loadEntities():
     st.session_state.entities = createEntitiesFromJson(loadEntitiesJson())
 
 def loadEntitiesJson():
-    if os.path.exists(INPUT_DATA_FILE_PATH):
-        with open(INPUT_DATA_FILE_PATH, "r", encoding="utf-8") as f:
+    inputDataFilePath = ConfigManager().getConfig()["INPUT_DATA_FILE_PATH"]
+    if os.path.exists(inputDataFilePath):
+        with open(inputDataFilePath, "r", encoding="utf-8") as f:
             return json.load(f)
     return {}
 
@@ -40,7 +41,6 @@ def leftColumnContent():
 def rigthColumnContent():
     st.subheader("Distribución inicial")
     initialOptionSelector = st.radio("seleccion de distribución inicial", ["Predefinida", "Aleatoria"], index=1, key="allocation_type")
-    st.session_state.setdefault
     newWidth = 5 if initialOptionSelector == "Predefinida" else 8
     if newWidth != st.session_state.colWidth:
         st.session_state.colWidth = newWidth
@@ -48,8 +48,28 @@ def rigthColumnContent():
 
     if initialOptionSelector == "Predefinida":
        showPredefiniedAllocationInput()
-    
-    if st.button("Ejecutar algoritmo"):
-        with st.spinner("Ejecutando algoritmo..."):
-            ejecutionButtonHandler()
+
+
+    progressPlaceholder = st.empty()
+    overlayPlaceholder = st.empty()
+    if st.button("Ejecutar"):
+   #     overlayPlaceholder.markdown("""
+   #     <div style="
+   #         position: fixed; top: 0; left: 0;
+   #         width: 100%; height: 100%;
+   #         background-color: rgba(0, 0, 0, 0.6);
+   #         display: flex; flex-direction: column;
+   #         justify-content: center; align-items: center;
+   #         z-index: 9999; color: white; font-size: 24px;">
+   #         <div id="loading-text">⏳ Procesando... </div>
+   #     </div>
+   # """, unsafe_allow_html=True)
+        progressBar = progressPlaceholder.progress(0, text="Iniciando...")
+        def updateProgress(p, cost):
+            progressBar.progress(p, text=f"Progreso: {p}%  Mejor penalizacion: {cost}")
+        ejecutionButtonHandler(updateProgress)
+        progressPlaceholder.empty()
+#    overlayPlaceholder.empty()
+        st.success("El algoritmo finalizó")
+
 
