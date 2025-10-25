@@ -1,9 +1,14 @@
 {
-  "MAX_ITERATIONS": 1000000,
-  "TEMPERATURE_REDUCTION_COEFFICIENT": 0.99999994883,
-  "HOURS_PER_DAY": 8,
-  "DAYS_PER_WEEK": 3,
-  "HOURS_PER_RESOURCE": 1.0,
-  "INPUT_DATA_FILE_PATH": "data.json",
-  "PENALTY_FUNCTION": "fwp"
+  "max_iterations": 10000,
+  "samples_for_statistics": 100,
+  "hours_per_day": 14,
+  "days_per_week": 5,
+  "hours_per_resource": 1.0,
+  "input_data_file_path": "DCIC-PrimerCuatrimestreRecursosDeUnaHora.json",
+  "penalty_function": "norm",
+  "cooling_function": "geometric",
+  "temperature_reduction_coefficient": 0.9999,
+  "temperature_beta_constant": 0.0003,
+  "temperature_log_c": 0.1,
+  "initial_temperature": 1
 }

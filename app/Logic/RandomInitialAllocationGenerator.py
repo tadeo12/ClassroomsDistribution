@@ -7,7 +7,7 @@ from ConfigManager import ConfigManager
 def generateRandomInitialAllocation(commissions: List[Commission], resources: List[Resource]):
     allocation = {}
     available_resources = resources.copy()  # Hacemos una copia para gestionar los recursos disponibles
-    hoursPerResource = ConfigManager().getConfig()["HOURS_PER_RESOURCE"]
+    hoursPerResource = ConfigManager().getConfig()["hours_per_resource"]
 
     for commission in commissions:
         required_blocks = int(commission.hours / hoursPerResource)

@@ -16,11 +16,18 @@ def import_file(folder, file):
         logging.error(f"Error al importar el archivo {file} desde '{folder}': {e}")
         return None, None
 
-def load_evaluation_functions():
-    """Carga funciones 'evaluate' de módulos en la carpeta 'Constraints'."""
-    from app.GUI.AdvancedConfigurationPage import ACTIVATED_FOLDER
+
+def load_evaluator_classes():
+    """
+    Carga dinámicamente las clases de evaluación desde los archivos en la carpeta 'Constraints'.
+    Cada clase puede definir internamente los métodos:
+        - evaluate()
+        - maxValue()
+        - maxHappyValue()
+    """
+    from app.GUI.ConfigurationPage import ACTIVATED_FOLDER
     folder = ACTIVATED_FOLDER
-    functions = {}
+    evaluator_classes = {}
 
     if not os.path.exists(folder):
         logging.error(f"La carpeta '{folder}' no existe.")
@@ -30,21 +37,16 @@ def load_evaluation_functions():
         if file.endswith("Evaluator.py") and file != "BaseEvaluator.py":
             module, module_name = import_file(folder, file)
             if module:
-                logging.debug(f"Atributos del módulo '{module_name}': {dir(module)}")
-
-                class_name = module_name  # Convención: el nombre del archivo coincide con el de la clase
+                class_name = module_name  # Convención: nombre de archivo == nombre de clase
                 cls = getattr(module, class_name, None)
 
                 if cls:
-                    if hasattr(cls, "evaluate") and callable(getattr(cls, "evaluate")):
-                        functions[module_name] = cls
-                        logging.info(f"Se cargó correctamente la clase '{class_name}' del archivo '{file}'.")
-                    else:
-                        logging.warning(f"La clase '{class_name}' del archivo '{file}' no tiene un método 'evaluate' callable.")
+                    evaluator_classes[module_name] = cls
+                    logging.info(f"Clase '{class_name}' cargada correctamente desde '{file}'.")
                 else:
                     logging.warning(f"El archivo '{file}' no contiene una clase '{class_name}'.")
             else:
                 logging.warning(f"No se pudo importar el módulo '{file}'.")
-    print("funciones de penalizacion cargadas: "+str(functions))
-    return functions
 
+    print("Clases de evaluadores cargadas: " + str(list(evaluator_classes.keys())))
+    return evaluator_classes

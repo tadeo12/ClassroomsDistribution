@@ -26,7 +26,7 @@ def validate(Allocation: dict) -> None:
     enoughtHoursValidation(commission_count)
 
 def enoughtHoursValidation(commission_count):
-    hoursPerResource = ConfigManager().getConfig()["HOURS_PER_RESOURCE"]
+    hoursPerResource = ConfigManager().getConfig()["hours_per_resource"]
     for commission, count in commission_count.items():
         if count * hoursPerResource != commission.hours:
             raise InvalidAllocationError(

@@ -2,7 +2,7 @@ import os
 import streamlit as st
 
 from app.GUI.ResultsPage import resultsPage
-from app.GUI.AdvancedConfigurationPage import advancedConfigurationPage
+from app.GUI.ConfigurationPage import ConfigurationPage
 from app.GUI.MainPage import mainPage
 
 def main(): 
@@ -12,7 +12,7 @@ def main():
     icon_path = os.path.join(RESOURCES_PATH, "icon.png")
     logo_path = os.path.join(RESOURCES_PATH, "logo uns.png")
 
-    st.set_page_config(page_title="Generacion de distribucion de aulas", page_icon= icon_path,layout="wide")  # Mejor uso del espacio
+    st.set_page_config(page_title="Generacion de distribucion de aulas", page_icon= icon_path,layout="wide") 
     st.sidebar.image(logo_path,clamp = True, width = 200)
     
     menu_options = ["Inicio", "Opciones Avanzadas"]
@@ -25,6 +25,6 @@ def main():
     if menu == "Inicio":
         mainPage()
     elif menu == "Opciones Avanzadas":
-        advancedConfigurationPage()
+        ConfigurationPage()
     elif menu == "Resultados":
         resultsPage()  

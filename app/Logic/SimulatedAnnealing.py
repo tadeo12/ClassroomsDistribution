@@ -2,6 +2,7 @@ import random
 import math
 from app.Logic.Evaluator import evaluate
 from ConfigManager import ConfigManager
+from app.Logic.TemperatureCooling import cool
 
 def generateNeighbor(allocation: dict):
     neighbor = allocation.copy()
@@ -12,37 +13,73 @@ def generateNeighbor(allocation: dict):
 
 def simulatedAnnealing(initialAllocation: dict, progressCallback = None):
     config = ConfigManager().getConfig()   
-    trc = config["TEMPERATURE_REDUCTION_COEFFICIENT"]
-    maxI = config["MAX_ITERATIONS"]
+    maxI = config["max_iterations"]
     solution = initialAllocation
     current = solution
-    temperature=1
+    temperature= config.get("initial_temperature", 1)
     i= 0
-    currentCost = evaluate(initialAllocation)[0]
+
+    currentCost, currentCostsByConstraint  = evaluate(initialAllocation)
     solutionCost = currentCost
+    solutionCostsByConstraint = currentCostsByConstraint
+
+    iterationsWithoutImprove = 0
+    iterationsWithoutChanges = 0
+    maxWithoutImprove = 0
+    maxWithoutChanges = 0
 
     if progressCallback:
-        checkpoint = max(1, maxI // 100)
+        samples = config["samples_for_statistics"]
+        checkpoint = max(1, maxI // samples)
 
     while i < maxI and solutionCost > 0:
-        #print(f"iteracion: {i}")
         i+=1
-        neighbor = generateNeighbor(current)
-        neighborEvaluation = evaluate(neighbor)
-        difference = neighborEvaluation[0] - currentCost
+        candidate = generateNeighbor(current)
+        candidateEvaluation = evaluate(candidate)
+        difference = candidateEvaluation[0] - currentCost
         if difference < 0:
-            current = neighbor
-            solution= neighbor
-            currentCost= neighborEvaluation[0]
+            current = candidate
+            solution= candidate
+            currentCost= candidateEvaluation[0]
             solutionCost= currentCost
+            currentCostsByConstraint=candidateEvaluation[1]
+            solutionCostsByConstraint=currentCostsByConstraint
+            iterationsWithoutImprove = 0
+            iterationsWithoutChanges = 0
+
+        elif math.exp(-difference/temperature) > random.random():
+            current = candidate
+            currentCost=candidateEvaluation[0]
+            currentCostsByConstraint=candidateEvaluation[1]
+            iterationsWithoutChanges = 0
         else:
-            if math.exp(-difference/temperature) > random.random():
-                current = neighbor
-                currentCost=neighborEvaluation[0]
-        temperature *= trc
+            iterationsWithoutChanges += 1
+            iterationsWithoutImprove += 1
+
+        maxWithoutImprove = max(maxWithoutImprove, iterationsWithoutImprove)
+        maxWithoutChanges = max(maxWithoutChanges, iterationsWithoutChanges)
+        print(temperature)
+        temperature = cool(temperature, i)
 
         if progressCallback and i % checkpoint == 0:
-            progressCallback(int((i/maxI)* 100), solutionCost)
+            stats = {
+                "progressPercent": int((i / maxI) * 100),
+                "iteration": i,
+                "bestCost": solutionCost,
+                "currentCost": currentCost,
+                "temperature": temperature,
+                "iterationsWithoutImprove": iterationsWithoutImprove,
+                "iterationsWithoutChanges": iterationsWithoutChanges,
+                "maxWithoutImproveInterval": maxWithoutImprove,
+                "maxWithoutChangesInterval": maxWithoutChanges,
+                "currentCostsByConstraint": currentCostsByConstraint,
+                "bestCostsByConstraint": solutionCostsByConstraint
+            }
+            progressCallback(stats, solution)
+
+            # reset de máximos del intervalo
+            maxWithoutImprove = iterationsWithoutImprove
+            maxWithoutChanges = iterationsWithoutChanges
 
     print("fin del algoritmo")
     return solution

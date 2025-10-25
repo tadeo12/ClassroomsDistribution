@@ -51,26 +51,26 @@
         {"name": "Organización de Computadoras"}
     ],
     "classrooms": [
-        {"name": "Aula 6", "capacity": 30, "place": "Palihue"},
-        {"name": "Aula 7", "capacity": 50, "place": "Palihue"},
-        {"name": "Aula 8", "capacity": 30, "place": "Palihue"},
-        {"name": "Aula S1", "capacity": 50, "place": "Alem"},
-        {"name": "Aula 5", "capacity": 50, "place": "Palihue"},
-        {"name": "Aula 116 (ex 38 c)", "capacity": 50, "place": "Alem"},
-        {"name": "Aula 16", "capacity": 50, "place": "Palihue"},
-        {"name": "Aula 2", "capacity": 50, "place": "Agronomia"},
-        {"name": "Aula 2", "capacity": 50, "place": "Palihue"},
-        {"name": "Aula 11", "capacity": 50, "place": "Palihue"},
-        {"name": "Aula 10", "capacity": 50, "place": "Palihue"},
-        {"name": "Aula 1", "capacity": 50, "place": "DCIC"},
+        {"name": "Aula 6", "capacity": 233, "place": "Palihue"},
+        {"name": "Aula 7", "capacity": 235, "place": "Palihue"},
+        {"name": "Aula 8", "capacity": 147, "place": "Palihue"},
+        {"name": "Aula S1", "capacity": 160, "place": "Alem"},
+        {"name": "Aula 5", "capacity": 100, "place": "Palihue"},
+        {"name": "Aula 116 (ex 38 c)", "capacity": 150, "place": "Alem"},
+        {"name": "Aula 16", "capacity": 90, "place": "Palihue"},
+        {"name": "Aula 2", "capacity": 150, "place": "Agronomia"},
+        {"name": "Aula 2", "capacity": 160, "place": "Palihue"},
+        {"name": "Aula 11", "capacity": 70, "place": "Palihue"},
+        {"name": "Aula 10", "capacity": 70, "place": "Palihue"},
+        {"name": "Aula 1", "capacity": 1600, "place": "DCIC"},
         {"name": "LP005", "capacity": 50, "place": "DCIC"},
-        {"name": "Aula 2", "capacity": 50, "place": "Palihue"},
-        {"name": "Aula 13", "capacity": 50, "place": "Palihue"},
+        {"name": "Aula 2", "capacity": 160, "place": "Palihue"},
+        {"name": "Aula 13", "capacity": 70, "place": "Palihue"},
         {"name": "LP004", "capacity": 50, "place": "DCIC"},
         {"name": "LP001", "capacity": 50, "place": "DCIC"},
-        {"name": "Aula 4", "capacity": 50, "place": "Palihue"},
-        {"name": "Aula 9", "capacity": 50, "place": "Palihue"},
-        {"name": "Aula 12", "capacity": 50, "place": "Palihue"}
+        {"name": "Aula 4", "capacity": 100, "place": "Palihue"},
+        {"name": "Aula 9", "capacity": 140, "place": "Palihue"},
+        {"name": "Aula 12", "capacity": 70, "place": "Palihue"}
     ],
 
     "commissions": [
@@ -78,175 +78,168 @@
             "name": "RPA A-F",
             "teacher": "Dra. Jessica Carballido",
             "subject": "Resolución de Problemas y Algoritmos",
-            "students": 50,
+            "students": 182,
             "hoursPerWeek": 8
         },
         {
             "name": "RPA G-N",
             "teacher": "Diego García",
             "subject": "Resolución de Problemas y Algoritmos",
-            "students": 50,
+            "students": 154,
             "hoursPerWeek": 8
         },
         {
             "name": "RPA O-Z",
             "teacher": "Dr. Alejandro García",
             "subject": "Resolución de Problemas y Algoritmos",
-            "students": 50,
+            "students": 137,
             "hoursPerWeek": 8
         },
         {
             "name": "TdC",
             "teacher": "Dr. Carlos Chesñevar",
             "subject": "Teoría de la Computabilidad",
-            "students": 50,
+            "students": 172,
             "hoursPerWeek": 8
         },
         {
             "name": "ED A-K",
             "teacher": "Dr. Sergio Gómez",
             "subject": "Estructuras de Datos",
-            "students": 50,
+            "students": 86,
             "hoursPerWeek": 8
         },
         {
             "name": "ED L-Z",
             "teacher": "Dr. Martín Larrea",
             "subject": "Estructuras de Datos",
-            "students": 50,
+            "students": 88,
             "hoursPerWeek": 8
         },
         {
             "name": "IPOO",
             "teacher": "Dr. Luciano Tamargo",
             "subject": "IPOO",
-            "students": 50,
+            "students": 141,
             "hoursPerWeek": 8
         },
         {
             "name": "LFyA",
             "teacher": "Dra. Telma Delladio",
             "subject": "Lenguajes Formales y Autómatas",
-            "students": 50,
+            "students": 130,
             "hoursPerWeek": 8
         },
         {
             "name": "Req",
             "teacher": "Dra. Andrea Cohen",
             "subject": "Requerimientos de Sistemas",
-            "students": 50,
+            "students": 151,
             "hoursPerWeek": 8
         },
         {
             "name": "LdP",
             "teacher": "Dra. Laura Cobo",
             "subject": "Lenguajes de Programación",
-            "students": 50,
+            "students": 24,
             "hoursPerWeek": 8
         },
         {
             "name": "Log",
             "teacher": "Dr. Marcelo Falappa",
             "subject": "Lógica para Ciencias de la Computación",
-            "students": 50,
+            "students": 199,
             "hoursPerWeek": 8
         },
         {
             "name": "GCS",
             "teacher": "Dr. Gerardo Simari",
             "subject": "Gestión de Calidad en el Software",
-            "students": 50,
+            "students": 43,
             "hoursPerWeek": 8
         },
         {
             "name": "SD",
             "teacher": "Mg. Karina Cenci",
             "subject": "Sistemas Distribuidos",
-            "students": 50,
+            "students": 6,
             "hoursPerWeek": 8
         },
         {
             "name": "AyC",
             "teacher": "Dr. Pablo Fillottrani",
             "subject": "Algoritmos y Complejidad",
-            "students": 50,
+            "students": 119,
             "hoursPerWeek": 8
         },
         {
             "name": "DDS",
             "teacher": "Dr. Sebastián Gottifredi",
             "subject": "Diseño y Desarrollo de Software",
-            "students": 50,
+            "students": 28,
             "hoursPerWeek": 8
         },
         {
             "name": "AnDS",
             "teacher": "Mg. Mercedes Vitturini",
             "subject": "Análisis y Diseño de Sistemas",
-            "students": 50,
+            "students": 54,
             "hoursPerWeek": 8
         },
         {
             "name": "AdC",
             "teacher": "Dra. Dana Urribarri",
             "subject": "Arquitectura de Computadoras",
-            "students": 50,
+            "students": 204,
             "hoursPerWeek": 8
         },
         {
             "name": "ACI",
             "teacher": "Dra. Dana Urribarri",
             "subject": "Arquitectura de Computadoras para Ingeniería",
-            "students": 50,
+            "students": 14,
             "hoursPerWeek": 8
         },
         {
             "name": "RyT",
             "teacher": "Ing. Sergio Davicino",
             "subject": "Redes y Teleprocesamiento",
-            "students": 50,
+            "students": 9,
             "hoursPerWeek": 8
         },
         {
             "name": "RdC",
             "teacher": "Mg. Alejandro Stankevicius",
             "subject": "Redes de Computadoras",
-            "students": 50,
+            "students": 76,
             "hoursPerWeek": 8
         },
         {
             "name": "CG",
             "teacher": "Dra. Luján Ganuza",
             "subject": "Computación Gráfica",
-            "students": 50,
+            "students": 11,
             "hoursPerWeek": 8
         },
         {
             "name": "IAW",
             "teacher": "Dr. Diego Martínez",
             "subject": "Ingeniería de Aplicaciones Web",
-            "students": 50,
+            "students": 76,
             "hoursPerWeek": 8
         },
         {
             "name": "SS",
             "teacher": "Ing. Leonardo De Matteis",
             "subject": "Seguridad en Sistemas",
-            "students": 50,
+            "students": 6,
             "hoursPerWeek": 8
         },
         {
             "name": "ArDS",
             "teacher": "Dra. Elsa Estévez",
             "subject": "Arquitectura y Diseño de Sistemas",
-            "students": 50,
-            "hoursPerWeek": 8
-        },
-        {
-            "name": "OC",
-            "teacher": "Lic. José Moyano",
-            "subject": "Organización de Computadoras",
-            "students": 50,
+            "students": 64,
             "hoursPerWeek": 8
         },
         {

@@ -19,6 +19,6 @@ def saveInputEntitiesButtonHandler(entitiesJsonText):
         st.error("JSON inválido")
 
 def saveEntitiesJson(data):
-    inputDataFilePath = ConfigManager().getConfig()["INPUT_DATA_FILE_PATH"]
+    inputDataFilePath = ConfigManager().getConfig()["input_data_file_path"]
     with open(inputDataFilePath, "w", encoding="utf-8") as f:
         json.dump(data, f, indent=4, ensure_ascii=False)

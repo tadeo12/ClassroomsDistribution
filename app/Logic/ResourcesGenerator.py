@@ -5,9 +5,9 @@ from ConfigManager import ConfigManager
 
 def generateResources(classrooms: List[Classroom], classroomsAvailability) -> list:
     config = ConfigManager().getConfig()
-    hoursPerDay = config["HOURS_PER_DAY"]
-    hoursPerResource = config["HOURS_PER_RESOURCE"]
-    daysPerWeek = config["DAYS_PER_WEEK"]
+    hoursPerDay = config["hours_per_day"]
+    hoursPerResource = config["hours_per_resource"]
+    daysPerWeek = config["days_per_week"]
 
     resources = []
     slotsPerDay = int(hoursPerDay / hoursPerResource)

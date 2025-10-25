@@ -23,7 +23,7 @@ def move_constraint(file, source_folder, target_folder):
     if os.path.exists(src_path):
         shutil.move(src_path, dest_path)
 
-def advancedConfigurationPage():
+def ConfigurationPage():
     st.subheader("Configuración del algoritmo")
     st.write("Modificar solo si sabes lo que estás haciendo.")
 
@@ -34,7 +34,7 @@ def advancedConfigurationPage():
         if isinstance(value, int):
             newConfig[key] = st.number_input(f"{key}", value=value, step=1)
         elif isinstance(value, float):
-            if key == "TEMPERATURE_REDUCTION_COEFFICIENT":
+            if key == "temperature_reduction_coefficient":
                 newConfig[key] = st.number_input(
                     f"{key}", value=value, step=0.00000000000001, format="%.16f"
                 )

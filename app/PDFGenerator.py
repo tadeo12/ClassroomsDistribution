@@ -1,12 +1,16 @@
+import json
 from reportlab.lib import colors
 from reportlab.lib.pagesizes import A4
-from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph
+from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph, Image, Spacer
 from reportlab.lib.units import inch
-from reportlab.lib.styles import getSampleStyleSheet
+from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+
+from ConfigManager import ConfigManager
+from app.GUI.Graphs import generateFiguresForPdf
+import streamlit as st
 
 
 styles = getSampleStyleSheet()
-
 
 def groupByClassroom(allocation):
     grouped = {}
@@ -17,6 +21,44 @@ def groupByClassroom(allocation):
                 grouped[classroom] = {}
             grouped[classroom][resource] = commission
     return grouped
+
+
+
+def loadClassroomScheduleData(allocation):
+    cellStyle = styles["BodyText"]
+    cellStyle.wordWrap = 'CJK'
+
+    days = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes"]
+
+    # Detectar los índices de hora presentes
+    used_hour_indices = sorted(set(resource.hour for resource in allocation))
+    schedule = {}
+
+    for idx in used_hour_indices:
+        real_hour = idx + 8  # Ahora 0 → 8, 1 → 9, ..., 13 → 21
+        for day in range(5):
+            schedule[(real_hour, day)] = []
+
+    for resource, commission in allocation.items():
+        if commission is not None:
+            day = resource.day
+            real_hour = resource.hour + 8
+            info = f"{commission.name} - {commission.subject.name} - {commission.teacher.name}"
+            schedule[(real_hour, day)].append(info)
+
+    data = [["Hora"] + days]
+
+    real_hours_sorted = sorted(set(h for (h, _) in schedule))
+
+    for hour in real_hours_sorted:
+        row = [Paragraph(f"{hour}:00", cellStyle)]
+        for day in range(5):
+            entries = schedule.get((hour, day), [])
+            content = "<br/>".join(entries)
+            row.append(Paragraph(content, cellStyle))
+        data.append(row)
+
+    return data
 
 def loadData(allocation):
     cellStyle = styles["BodyText"]
@@ -49,65 +91,6 @@ def loadData(allocation):
         ])
 
     return data
-
-def loadClassroomScheduleData(allocation):
-    cellStyle = styles["BodyText"]
-    cellStyle.wordWrap = 'CJK'
-
-    days = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes"]
-
-    # Detectar los índices de hora presentes
-    used_hour_indices = sorted(set(resource.hour for resource in allocation))
-    schedule = {}
-
-    for idx in used_hour_indices:
-        real_hour = idx + 8  # Ahora 0 → 8, 1 → 9, ..., 13 → 21
-        for day in range(5):
-            schedule[(real_hour, day)] = []
-
-    for resource, commission in allocation.items():
-        if commission is not None:
-            day = resource.day
-            real_hour = resource.hour + 8
-            info = f"{commission.name} - {commission.subject.name} - {commission.teacher.name}"
-            schedule[(real_hour, day)].append(info)
-
-    # Construcción de la tabla
-    data = [["Hora"] + days]
-
-    real_hours_sorted = sorted(set(h for (h, _) in schedule))
-
-    for hour in real_hours_sorted:
-        row = [Paragraph(f"{hour}:00", cellStyle)]
-        for day in range(5):
-            entries = schedule.get((hour, day), [])
-            content = "<br/>".join(entries)
-            row.append(Paragraph(content, cellStyle))
-        data.append(row)
-
-    return data
-
-def createPdf(allocation, fileName = "horarios_clase.pdf"):
-    doc = SimpleDocTemplate(fileName, pagesize=A4, rightMargin=20, leftMargin=20, topMargin=20, bottomMargin=20)
-    elements = []
-    
-    pageWidth = A4[0] - 40
-    table = generateTable(allocation, pageWidth)
-
-    elements.append(Paragraph("Distribución de aulas", styles["h1"]))
-    elements.append(table)
-    #elements.append(Paragraph(f"evaluacion de penalización: {evaluar(solucion_final)}"))
-
-    grouped_alloc = groupByClassroom(allocation)
-    for classroom, alloc in grouped_alloc.items():
-        elements.append(Paragraph(f"Aula: {classroom}", styles["Heading2"]))
-        table = generateClassroomTable(alloc, pageWidth)
-        elements.append(table)
-        elements.append(Paragraph("<br/><br/>", styles["BodyText"]))  # Espacio entre tablas
-
-    doc.build(elements)
-    print(f"PDF generado con éxito en: {fileName}")
-
 
 def generateClassroomTable(allocation, pageWidth):
     colWidths = [pageWidth * 0.1] + [pageWidth * 0.18] * 5  # Hora + 5 días
@@ -150,3 +133,65 @@ def generateTable(allocation, pageWidth):
     table.setStyle(styleTable)
 
     return table
+
+def createPdf(allocation, fileName = "horarios_clase.pdf"):
+    doc = SimpleDocTemplate(fileName, pagesize=A4, rightMargin=20, leftMargin=20, topMargin=20, bottomMargin=20)
+    elements = []
+    
+    pageWidth = A4[0] - 40
+    
+
+    elements.append(Paragraph("Distribución de aulas", styles["h1"]))
+    table = generateTable(allocation, pageWidth)
+    elements.append(table)
+    #elements.append(Paragraph(f"evaluacion de penalización: {evaluar(solucion_final)}"))
+
+    grouped_alloc = groupByClassroom(allocation)
+    for classroom, alloc in grouped_alloc.items():
+        elements.append(Paragraph(f"Aula: {classroom}", styles["Heading2"]))
+        table = generateClassroomTable(alloc, pageWidth)
+        elements.append(table)
+        elements.append(Paragraph("<br/><br/>", styles["BodyText"]))  
+
+
+    config = ConfigManager().getConfig()
+    elements.append(Paragraph("Informacion de ejecucion del algoritmo", styles["h1"]))
+    elements.append(Paragraph("Configuraciones: ", styles["h2"]))
+    for key, value in config.items():
+        elements.append(Paragraph(f"<b>{key}</b>: {value}", styles["BodyText"]))
+        elements.append(Spacer(1, 20))
+
+
+    # Agregar gráficos una sola vez al final
+    if "statsHistory" in st.session_state and st.session_state.statsHistory:
+        figures = generateFiguresForPdf(st.session_state.statsHistory)
+        elements.append(Paragraph("Estadísticas del algoritmo", styles["h2"]))
+
+        # convertir buffers en objetos Image con tamaño uniforme
+        imgs = [Image(buf, width=250, height=180) for buf in figures]
+
+        # armar la tabla de a dos imágenes por fila
+        rows = [imgs[i:i+2] for i in range(0, len(imgs), 2)]
+        table = Table(rows, colWidths=[260, 260])  # ajustar ancho de columna
+        table.setStyle(TableStyle([
+            ("VALIGN", (0,0), (-1,-1), "MIDDLE"),
+            ("ALIGN", (0,0), (-1,-1), "CENTER"),
+            ("LEFTPADDING", (0,0), (-1,-1), 5),
+            ("RIGHTPADDING", (0,0), (-1,-1), 5),
+            ("TOPPADDING", (0,0), (-1,-1), 10),
+            ("BOTTOMPADDING", (0,0), (-1,-1), 10),
+        ]))
+
+        elements.append(table)
+
+
+    # Agregar evaluación al PDF
+    if "evaluation" in st.session_state and st.session_state.evaluation:
+        elements.append(Paragraph("Evaluación de restricciones", styles["h1"]))
+        eval_json = json.dumps(st.session_state.evaluation, indent=4, ensure_ascii=False)
+        for line in eval_json.splitlines():
+            elements.append(Paragraph(line.replace(" ", "&nbsp;"), styles["Code"]))
+
+    doc.build(elements)
+    print(f"PDF generado con éxito en: {fileName}")
+

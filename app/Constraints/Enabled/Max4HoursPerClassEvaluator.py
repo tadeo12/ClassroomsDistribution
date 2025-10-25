@@ -10,7 +10,7 @@ def groupByDayAndCommission(allocation):
 
 class Max4HoursPerClassEvaluator(BaseEvaluator):
     def evaluate(self, allocation):
-        hoursPerResource = ConfigManager().getConfig()["HOURS_PER_RESOURCE"]
+        hoursPerResource = ConfigManager().getConfig()["hours_per_resource"]
         maxResources = int(4 /hoursPerResource ) 
         penalty = 0
         resourcesByDayAndCommission = groupByDayAndCommission(allocation)

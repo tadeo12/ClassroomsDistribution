@@ -13,7 +13,7 @@ class DayOffBetweenClassesEvaluator(BaseEvaluator):
     def evaluate(self, allocation):
         resourcesByCommissionsAndDay = groupByCommissionAndDay(allocation)
         penalty= 0
-        daysPerWeek = ConfigManager().getConfig()["DAYS_PER_WEEK"]
+        daysPerWeek = ConfigManager().getConfig()["days_per_week"]
         for commission, resourcesByDay in resourcesByCommissionsAndDay.items():
             prevDayWereClasses = bool(resourcesByDay[0])
             for i in range(1, daysPerWeek):
